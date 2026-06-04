@@ -2,7 +2,7 @@ package modelo;
 
 import java.util.List;
 import java.util.ArrayList;
-//Dani gay
+//Hola DAni
 public class Sistema {
 	
 	private List<Festival> lstFestivales;

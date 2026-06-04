@@ -2,7 +2,7 @@ package modelo;
 
 import java.util.List;
 import java.util.ArrayList;
-
+//Hola DAni
 public class Sistema {
 	
 	private List<Festival> lstFestivales;
@@ -23,7 +23,7 @@ public class Sistema {
 		
 	}
 	
-	
+	//HASDIUQHWIEQWE
 	//metodos
 	
 	public boolean agregarFestival(Festival festival) {

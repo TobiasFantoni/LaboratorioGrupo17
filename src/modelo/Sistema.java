@@ -11,7 +11,7 @@ public class Sistema {
 	private List<Pedido> lstPedidos;
 	//private List<ReportesVenta> lstReportes;
 	
-	
+	//Puta
 	//Constructor
 	public Sistema() {
 		

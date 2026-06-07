@@ -2,7 +2,7 @@ package modelo;
 
 import java.util.List;
 import java.util.ArrayList;
-//Hola DAni
+
 public class Sistema {
 	
 	private List<Festival> lstFestivales;
@@ -11,7 +11,7 @@ public class Sistema {
 	private List<Pedido> lstPedidos;
 	//private List<ReportesVenta> lstReportes;
 	
-	//Putaaa
+
 	//Constructor
 	public Sistema() {
 		
@@ -23,7 +23,6 @@ public class Sistema {
 		
 	}
 	
-	//HASDIUQHWIEQWEasdasdasd
 	//metodos
 	
 	public boolean agregarFestival(Festival festival) {
@@ -78,20 +77,22 @@ public class Sistema {
 	
 	public boolean registrarPedido() {
 		
+		Pedido nuevoPedido = null; 
+		
 		return this.lstPedidos.add(nuevoPedido);
 	}
 	
-	public List<ReporteVenta> obtenerRecaudacionFestival(Festival festival){
-		
-		List<ReporteVenta> recaudacion = new ArrayList<ReporteVenta>();
-		
-		return recaudacion;
-	}
+//	public List<ReporteVenta> obtenerRecaudacionFestival(Festival festival){
+//		
+//		List<ReporteVenta> recaudacion = new ArrayList<ReporteVenta>();
+//		
+//		return recaudacion;
+//	}
 	
-	public List<UnidadVenta> rankingUnidades(){
-		
-		List<UnidadVenta> ranking = new ArrayList<UnidadVenta>();
-	}
+//	public List<UnidadVenta> rankingUnidades(){
+//		
+//		List<UnidadVenta> ranking = new ArrayList<UnidadVenta>();
+//	}
 	
 	
 	

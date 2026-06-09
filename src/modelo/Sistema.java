@@ -10,7 +10,7 @@ public class Sistema {
 	private List<UnidadVenta> lstUnidadesVenta;
 	private List<Persona> lstPersonalGlobal;
 	private List<Pedido> lstPedidos;
-	//private List<ReportesVenta> lstReportes;
+
 	
 
 	//Constructor
@@ -20,8 +20,7 @@ public class Sistema {
 		this.lstUnidadesVenta = new ArrayList<UnidadVenta>();
 		this.lstPersonalGlobal = new ArrayList<Persona>();
 		this.lstPedidos = new ArrayList<Pedido>();
-		//this.lstFestivales = new ArrayList<Festival>;
-		
+
 	}
 	
 	//metodos
@@ -135,18 +134,6 @@ public class Sistema {
 		
 		return this.lstPedidos.add(nuevoPedido);
 	}
-	
-//	public List<ReporteVenta> obtenerRecaudacionFestival(Festival festival){
-//		
-//		List<ReporteVenta> recaudacion = new ArrayList<ReporteVenta>();
-//		
-//		return recaudacion;
-//	}
-	
-//	public List<UnidadVenta> rankingUnidades(){
-//		
-//		List<UnidadVenta> ranking = new ArrayList<UnidadVenta>();
-//	}
 	
 	
 	

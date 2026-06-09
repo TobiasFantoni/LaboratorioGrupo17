@@ -10,7 +10,7 @@ public class Sistema {
 	private List<UnidadVenta> lstUnidadesVenta;
 	private List<Persona> lstPersonalGlobal;
 	private List<Pedido> lstPedidos;
-	//private List<ReportesVenta> lstReportes;
+	private List<ReporteVenta> lstReportes;
 	
 	//Putaaa
 	//Constructor
@@ -20,7 +20,7 @@ public class Sistema {
 		this.lstUnidadesVenta = new ArrayList<UnidadVenta>();
 		this.lstPersonalGlobal = new ArrayList<Persona>();
 		this.lstPedidos = new ArrayList<Pedido>();
-		//this.lstFestivales = new ArrayList<Festival>;
+		this.lstReportes = new ArrayList<ReporteVenta>();
 		
 	}
 	
@@ -123,22 +123,25 @@ public class Sistema {
 		return pedidoEncontrado;
 	}
 	
-	/*
-	 * public List<ReporteVenta> obtenerRecaudacionFestival(Festival festival){
-	 * 
-	 * List<ReporteVenta> lstRecaudacion = new ArrayList<ReporteVenta>();
-	 * 
-	 * return lstRecaudacion; }
-	 * 
-	 * public List<UnidadVenta> rankingUnidades(Lst UnidadVenta){
-	 * 
-	 * List<UnidadVenta> ranking = new ArrayList<UnidadVenta>(); UnidadVenta
-	 * unidadVentaAux = null;
-	 * 
-	 * for(int i = 0; i < lstUnidadesVenta.size(); i++) { if()//No se de donde sacar
-	 * la recaudacion la dejo para mas tarde } }
-	 */
 	
+	public List<ReporteVenta> obtenerRecaudacionFestival(Festival festival) {
+
+		List<ReporteVenta> lstRecaudacion = new ArrayList<ReporteVenta>();
+
+		return lstRecaudacion;
+	}
+
+	public List<UnidadVenta> rankingUnidades(Lst UnidadVenta){
+	  
+	  List<UnidadVenta> ranking = new ArrayList<UnidadVenta>(); UnidadVenta
+	  unidadVentaAux = null;
+	  
+	  for(int i = 0; i < lstUnidadesVenta.size(); i++) { 
+		  if() {
+		  
+		  } 
+	  }
+	}
 	
 	
 	//getters y setters

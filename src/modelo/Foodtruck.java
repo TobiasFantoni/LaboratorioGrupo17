@@ -30,7 +30,18 @@ public class Foodtruck extends UnidadVenta {
 		this.usaLuz = usaLuz;
 	}
 	
-	
+	public double calcularCanon(){
+		
+		double canon = 0;
+		
+		if(this.usaLuz == true) {
+			canon = (superficie * 500) + 2000;
+		}else {
+			canon = (superficie * 500);
+		}
+		
+		return canon;
+	}
 	
 	
 }

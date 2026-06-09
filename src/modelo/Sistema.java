@@ -131,7 +131,7 @@ public class Sistema {
 		return lstRecaudacion;
 	}
 
-	public List<UnidadVenta> rankingUnidades(Lst UnidadVenta){
+	public List<UnidadVenta> rankingUnidades(List UnidadVenta){
 	  
 	  List<UnidadVenta> ranking = new ArrayList<UnidadVenta>(); UnidadVenta
 	  unidadVentaAux = null;
@@ -141,7 +141,20 @@ public class Sistema {
 		  
 		  } 
 	  }
+	  
+	  return ranking;
 	}
+	
+	public double obtenerRecaudacionFestival(Festival festival){
+		  
+		  double recaudacionFestival = 0;
+		  
+		  for(int i = 0; i < festival.getLstUnidadVentas().size(); i++) { 
+			  recaudacionFestival = recaudacionFestival + festival.getLstUnidadVentas().get(i).calcularRentabilidad();
+		  }
+		  
+		  return recaudacionFestival;
+		}
 	
 	
 	//getters y setters

@@ -195,13 +195,30 @@ public class Sistema {
 		  return recaudacionFestival;
 		}
 	
-	public List<Canon> canonTop3(List<Canon> canon) {
+	public List<Canon> canonsPorFestival(Festival f) {
+		
+		List<Canon> canons = new ArrayList<Canon>();
+		
+		for(UnidadVenta u : f.getLstUnidadVentas()) {
+			
+			Canon nuevoCanon = new Canon(u.getCodigoUnico(), u.getNombreComercial(), u.calcularCanon());
+			canons.add(nuevoCanon);
+		}
+		
+		return canons;
+	}
+	
+	public List<Canon> canonTop3(Festival f) {
+		
+		List<Canon> canonList = new ArrayList<Canon>();
 
+		canonList = this.canonsPorFestival(f);
+		
 		Canon primero = null;
 		Canon segundo = null;
 		Canon tercero = null;
 
-	    for (Canon c : canon) {
+	    for (Canon c : canonList ) {
 
 	        if (primero == null || c.getCanon() > primero.getCanon()) {
 	            tercero = segundo;

@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.List;
+import java.time.LocalDate;
 import java.util.ArrayList;
 //Hola DAni
 public class Sistema {
@@ -50,16 +51,24 @@ public class Sistema {
 		return this.lstPersonalGlobal.remove(persona);
 	}
 	
-	public boolean agregarUnidadVenta(UnidadVenta unidadVenta) {
+	public boolean agregarUnidadVenta(String nombreComercial, Persona persona, double superficie, List<Persona> staff, List<Plato> platos, String codigoUnico) throws Exception {
+		if(buscarUnidadVentaPorCodigoUnico(codigoUnico) != null)throw new Exception("La unidad ya existe");
+		
+		int id = 1;
+		
+		if(this.lstUnidadesVenta.isEmpty() != true) {
+			id = this.lstUnidadesVenta.getLast().getId() + 1;
+		}
 		
 		
-		return this.lstUnidadesVenta.add(null);
+		return this.lstUnidadesVenta.add(new UnidadVenta(id,nombreComercial,persona,superficie,staff,platos,codigoUnico));
 	}
 	
-	public boolean eliminarUnidadVenta(UnidadVenta unidadVenta) {
+	public boolean eliminarUnidadVenta(String codigoUnico) throws Exception{
+		if(buscarUnidadVentaPorCodigoUnico(codigoUnico) == null)throw new Exception("No se encontro la Unidadad de Venta");
 		
 		
-		return this.lstFestivales.remove(unidadVenta);
+		return this.lstUnidadesVenta.remove(buscarUnidadVentaPorCodigoUnico(codigoUnico));
 	}
 	
 	public Persona buscarPersonalPorDni(long dni) {
@@ -69,29 +78,66 @@ public class Sistema {
 		return personaEncontrada;
 	}
 	
-	public UnidadVenta buscarUnidadVentaPorId(int id) {
+	public UnidadVenta buscarUnidadVentaPorCodigoUnico(String codigoUnico) {
 		
 		UnidadVenta unidadVentaEncontrada = null;
+		boolean encontrado = false;
+		int contador = 0;
+		
+		while(contador < this.lstUnidadesVenta.size() && encontrado == false) {
+			if(lstUnidadesVenta.get(contador).equals(codigoUnico)) {
+				unidadVentaEncontrada = this.lstUnidadesVenta.get(contador);
+				encontrado = true;
+			}
+			contador++;
+		}
 		
 		return unidadVentaEncontrada;
 	}
 	
-	public boolean registrarPedido() {
+	public boolean registrarPedido(LocalDate fecha, UnidadVenta unidadVenta, List<ItemPedido> lstItemsPedido, boolean estado) {
 		
-		return this.lstPedidos.add(nuevoPedido);
+		int id = 1;
+		
+		if(this.lstUnidadesVenta.isEmpty() != true) {
+			id = this.lstUnidadesVenta.getLast().getId() + 1;
+		}
+		
+		return this.lstPedidos.add(new Pedido(id, fecha, unidadVenta, lstItemsPedido, estado));
 	}
 	
-	public List<ReporteVenta> obtenerRecaudacionFestival(Festival festival){
+	public Pedido buscarPedidoPorId(int id) {
 		
-		List<ReporteVenta> recaudacion = new ArrayList<ReporteVenta>();
+		Pedido pedidoEncontrado = null;
+		boolean encontrado = false;
+		int contador = 0;
 		
-		return recaudacion;
+		while(contador < this.lstPedidos.size() && encontrado == false) {
+			if(lstPedidos.get(contador).equals(id)) {
+				pedidoEncontrado = this.lstPedidos.get(contador);
+				encontrado = true;
+			}
+			contador++;
+		}
+		
+		return pedidoEncontrado;
 	}
 	
-	public List<UnidadVenta> rankingUnidades(){
-		
-		List<UnidadVenta> ranking = new ArrayList<UnidadVenta>();
-	}
+	/*
+	 * public List<ReporteVenta> obtenerRecaudacionFestival(Festival festival){
+	 * 
+	 * List<ReporteVenta> lstRecaudacion = new ArrayList<ReporteVenta>();
+	 * 
+	 * return lstRecaudacion; }
+	 * 
+	 * public List<UnidadVenta> rankingUnidades(Lst UnidadVenta){
+	 * 
+	 * List<UnidadVenta> ranking = new ArrayList<UnidadVenta>(); UnidadVenta
+	 * unidadVentaAux = null;
+	 * 
+	 * for(int i = 0; i < lstUnidadesVenta.size(); i++) { if()//No se de donde sacar
+	 * la recaudacion la dejo para mas tarde } }
+	 */
 	
 	
 	

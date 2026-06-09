@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.List;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Sistema {
@@ -37,13 +38,18 @@ public class Sistema {
 		return this.lstFestivales.remove(festival);
 	}
 	
-	public boolean agregarPersonal(Persona personal) {
+	public boolean agregarCocinero(int dni, String nombre, String apellido, LocalDate fechaNacimiento, float sueldoBase, int plusCategoria) throws Exception {
 		
+		if(buscarPersonaPorDni != null) {
+			throw new Exception("Ya existe una persona con el DNI: "+ dni);
+		}else if((LocalDate.now().getYear() - fechaNacimiento.getYear() ) < 18){
+			
+			
+		}
 		
-		return this.lstPersonalGlobal.add(null);
-	}
+	} 
 	
-	public boolean eliminarPersonal(Persona persona) {
+	public boolean eliminarPersona(Persona persona) {
 		
 		
 		return this.lstPersonalGlobal.remove(persona);

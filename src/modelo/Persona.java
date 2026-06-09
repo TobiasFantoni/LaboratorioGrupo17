@@ -4,14 +4,14 @@ import java.time.LocalDate;
 
 public abstract class Persona {
 	
-	protected int dni;
+	protected long dni;
 	protected String nombre;
 	protected String apellido;
 	protected LocalDate fechaNacimiento;
 	protected LocalDate fechaIngreso;
 	protected float sueldoBase;
 	
-	public Persona(int dni, String nombre, String apellido, LocalDate fechaNacimiento,
+	public Persona(long dni, String nombre, String apellido, LocalDate fechaNacimiento,
 			float sueldoBase) {
 		this.dni = dni;
 		this.nombre = nombre;
@@ -21,8 +21,7 @@ public abstract class Persona {
 		this.sueldoBase = sueldoBase;
 	}
 	
-	
-	public int getDni() {
+	public long getDni() {
 		return dni;
 	}
 	public void setDni(int dni) {
@@ -57,6 +56,15 @@ public abstract class Persona {
 	}
 	public void setSueldoBase(float sueldoBase) {
 		this.sueldoBase = sueldoBase;
+	}
+	
+	public abstract double calcularSueldo();
+	
+	public double calcularAntiguedad() {
+		long diasIngreso = this.fechaIngreso.toEpochDay();
+        long diasActual = LocalDate.now().toEpochDay();
+
+        return (diasActual - diasIngreso) / 365;
 	}
 	
 	

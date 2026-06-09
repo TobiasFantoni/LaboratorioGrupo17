@@ -38,22 +38,64 @@ public class Sistema {
 		return this.lstFestivales.remove(festival);
 	}
 	
-	public boolean agregarCocinero(int dni, String nombre, String apellido, LocalDate fechaNacimiento, float sueldoBase, int plusCategoria) throws Exception {
+	
+	public Persona buscarPersonaPorDni(long dni) {
 		
-		if(buscarPersonaPorDni != null) {
-			throw new Exception("Ya existe una persona con el DNI: "+ dni);
-		}else if((LocalDate.now().getYear() - fechaNacimiento.getYear() ) < 18){
+		Persona personaEncontrada = null;
+		int i = 0;
+		boolean encontrada = false;
+		
+		while(i<this.lstPersonalGlobal.size() && !encontrada) {
 			
+			Persona p = this.lstPersonalGlobal.get(i);
 			
+			if(p.getDni() == dni) {
+				personaEncontrada = p;
+				encontrada = true;
+			}
+			
+			i++;
 		}
 		
+		return personaEncontrada;
+	}
+	
+	public boolean agregarCocinero(long dni, String nombre, String apellido, LocalDate fechaNacimiento, float sueldoBase, String especialidad, int plusCategoria) throws Exception {
+		
+		LocalDate edadLimite = LocalDate.now().minusYears(18);
+		
+		if(this.buscarPersonaPorDni(dni) != null) {
+			throw new Exception("Ya existe una persona con el DNI: "+ dni);
+		}else if(fechaNacimiento.isAfter(edadLimite)){
+			throw new Exception("La persona que intenta agregar, es menor de 18 años.");
+		}
+		
+		Cocinero nuevoCocinero = new Cocinero(dni, nombre, apellido, fechaNacimiento, sueldoBase, especialidad ,plusCategoria);
+		
+		
+		return this.lstPersonalGlobal.add(nuevoCocinero);
 	} 
 	
-	public boolean eliminarPersona(Persona persona) {
+	public boolean agregarCajero(long dni, String nombre, String apellido, LocalDate fechaNacimiento, float sueldoBase, String turno) throws Exception {
+		
+		LocalDate edadLimite = LocalDate.now().minusYears(18);
+		
+		if(this.buscarPersonaPorDni(dni) != null) {
+			throw new Exception("Ya existe una persona con el DNI: "+ dni);
+		}else if(fechaNacimiento.isAfter(edadLimite)){
+			throw new Exception("La persona que intenta agregar, es menor de 18 años.");
+		}
+		
+		Cajero nuevoCajero = new Cajero(dni, nombre, apellido, fechaNacimiento, sueldoBase, turno);
 		
 		
-		return this.lstPersonalGlobal.remove(persona);
+		return this.lstPersonalGlobal.add(nuevoCajero);
 	}
+	
+	public boolean eliminarPersona(long dni) {
+		return this.lstPersonalGlobal.remove(buscarPersonaPorDni(dni));
+	}
+	
 	
 	public boolean agregarUnidadVenta(UnidadVenta unidadVenta) {
 		
@@ -67,12 +109,6 @@ public class Sistema {
 		return this.lstFestivales.remove(unidadVenta);
 	}
 	
-	public Persona buscarPersonalPorDni(long dni) {
-		
-		Persona personaEncontrada = null;
-		
-		return personaEncontrada;
-	}
 	
 	public UnidadVenta buscarUnidadVentaPorId(int id) {
 		

@@ -23,6 +23,9 @@ public class UnidadVenta {
 		this.codigoUnico = codigoUnico;
 	}
 	
+	
+	
+	
 	//getters y setters
 	public int getId() {
 		return id;

@@ -133,14 +133,39 @@ public class Sistema {
 
 	public List<UnidadVenta> rankingUnidades(List UnidadVenta){
 	  
-	  List<UnidadVenta> ranking = new ArrayList<UnidadVenta>(); UnidadVenta
-	  unidadVentaAux = null;
+	  List<UnidadVenta> ranking = this.lstUnidadesVenta;
+	  UnidadVenta unidadVentaAux = null;
 	  
-	  for(int i = 0; i < lstUnidadesVenta.size(); i++) { 
-		  if() {
-		  
+	  for(int i = 0; i < lstReportes.size()-1; i++) { 
+		  if(lstReportes.get(i).getRecaudacionTotal() < lstReportes.get(i+1).getRecaudacionTotal()) {
+			  unidadVentaAux = ranking.get(i);
+			  ranking.remove(i);
+			  ranking.add(i);
 		  } 
 	  }
+	  
+	  public ArrayList<Unidad> rankingUnidades(ArrayList<Unidad> unidades) {
+
+		    for(int i = 0; i < unidades.size() - 1; i++) {
+
+		        int posMayor = i;
+
+		        for(int j = i + 1; j < unidades.size(); j++) {
+
+		            if(reporteVenta.obtenerRecaudacion(unidades.get(j))
+		                    > reporteVenta.obtenerRecaudacion(unidades.get(posMayor))) {
+
+		                posMayor = j;
+		            }
+		        }
+
+		        Unidad aux = unidades.get(i);
+		        unidades.set(i, unidades.get(posMayor));
+		        unidades.set(posMayor, aux);
+		    }
+
+		    return unidades;
+		}
 	  
 	  return ranking;
 	}
@@ -159,6 +184,46 @@ public class Sistema {
 	
 	//getters y setters
 	
+	public double obtenerRecaudacionFestival(Festival festival){
+		  
+		  double recaudacionFestival = 0;
+		  
+		  for(int i = 0; i < festival.getLstUnidadVentas().size(); i++) { 
+			  recaudacionFestival = recaudacionFestival + festival.getLstUnidadVentas().get(i).calcularRentabilidad();
+		  }
+		  
+		  return recaudacionFestival;
+		}
 	
+	public List<Canon> canonTop3(List<Canon> canon) {
+
+		Canon primero = null;
+		Canon segundo = null;
+		Canon tercero = null;
+
+	    for (Canon c : canon) {
+
+	        if (primero == null || c.getCanon() > primero.getCanon()) {
+	            tercero = segundo;
+	            segundo = primero;
+	            primero = c;
+	        }
+	        else if (segundo == null || c.getCanon() > segundo.getCanon()) {
+	            tercero = segundo;
+	            segundo = c;
+	        }
+	        else if (tercero == null || c.getCanon() > tercero.getCanon()) {
+	            tercero = c;
+	        }
+	    }
+
+	    List<Canon> top3 = new ArrayList<>();
+
+	    if (primero != null) top3.add(primero);
+	    if (segundo != null) top3.add(segundo);
+	    if (tercero != null) top3.add(tercero);
+
+	    return top3;
+	}
 	
 }

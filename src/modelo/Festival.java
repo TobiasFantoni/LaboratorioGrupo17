@@ -91,7 +91,6 @@ public class Festival {
 		public boolean equals(Festival f) {
 			return this.nombre.equals(f.nombre) && this.fechaIni.isEqual(fechaIni) && this.fechaFin.isEqual(fechaFin);
 		}
-		
-		
+
 		
 }

@@ -29,7 +29,4 @@ public class ReporteVenta {
 		this.rankingUnidad = rankingUnidad;
 	}
 	
-	
-	
-	
 }

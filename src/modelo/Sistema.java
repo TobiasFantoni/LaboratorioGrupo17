@@ -96,6 +96,18 @@ public class Sistema {
 		return this.lstPersonalGlobal.remove(buscarPersonaPorDni(dni));
 	}
 	
+	public List<Canon> canonsPorFestival(Festival f) {
+		
+		List<Canon> canons = new ArrayList<Canon>();
+		
+		for(UnidadVenta u : f.getLstUnidadVentas()) {
+			
+			Canon nuevoCanon = new Canon(u.getCodigoUnico(), u.getNombreComercial(), u.calcularCanon());
+			canons.add(nuevoCanon);
+		}
+		
+		return canons;
+	}
 	
 	public boolean agregarUnidadVenta(UnidadVenta unidadVenta) {
 		

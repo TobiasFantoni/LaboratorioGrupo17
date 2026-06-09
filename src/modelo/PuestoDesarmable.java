@@ -32,6 +32,13 @@ public class PuestoDesarmable extends UnidadVenta{
 	}
 	
 	
-	
+	public double calcularCanon(){
+		
+		double canon = 0;
+		
+		canon = (superficie * 500) - (this.tiempoMontaje * 10);
+			
+		return canon;
+	}
 	
 }

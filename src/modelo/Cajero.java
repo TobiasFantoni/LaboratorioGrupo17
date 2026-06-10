@@ -25,7 +25,10 @@ public class Cajero extends Persona {
 	public void setTurno(String turno) {
 		this.turno = turno;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return super.toString() + "Cajero [turno=" + turno + "]";
+	}
 	
 }

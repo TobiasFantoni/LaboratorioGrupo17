@@ -89,8 +89,15 @@ public class Festival {
 
 		
 		public boolean equals(Festival f) {
-			return this.nombre.equals(f.nombre) && this.fechaIni.isEqual(fechaIni) && this.fechaFin.isEqual(fechaFin);
+			return this.nombre.equalsIgnoreCase(f.nombre) && this.temporada.equalsIgnoreCase(f.temporada) && this.fechaIni.isEqual(fechaIni);
 		}
 
+		@Override
+		public String toString() {
+			return "\nFestival [id=" + id + ", nombre=" + nombre + ", temporada=" + temporada + ", costeSuperficie="
+					+ costeSuperficie + ", fechaIni=" + fechaIni + ", fechaFin=" + fechaFin + ", lstUnidadVentas="
+					+ lstUnidadVentas + "]";
+		}
+		
 		
 }

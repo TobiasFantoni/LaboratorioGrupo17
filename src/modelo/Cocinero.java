@@ -40,6 +40,12 @@ public class Cocinero extends Persona{
 	public void setPlusCategoria(int plusCategoria) {
 		this.plusCategoria = plusCategoria;
 	}
+
+
+	@Override
+	public String toString() {
+		return super.toString() + "Cocinero [especialidad=" + especialidad + ", plusCategoria=" + plusCategoria + "]";
+	}
 	
 	
 	

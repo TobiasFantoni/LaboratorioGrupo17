@@ -66,6 +66,12 @@ public abstract class Persona {
 
         return (diasActual - diasIngreso) / 365;
 	}
+
+	@Override
+	public String toString() {
+		return "\nPersona [dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", fechaNacimiento="
+				+ fechaNacimiento + ", fechaIngreso=" + fechaIngreso + ", sueldoBase=" + sueldoBase + "]";
+	}
 	
 	
 	

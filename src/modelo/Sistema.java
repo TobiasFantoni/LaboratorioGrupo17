@@ -142,45 +142,34 @@ public class Sistema {
 
 		return lstRecaudacion;
 	}
+	  
+	  public List<ReporteVenta> rankingUnidades() {
 
-	public List<UnidadVenta> rankingUnidades(List UnidadVenta){
-	  
-	  List<UnidadVenta> ranking = this.lstUnidadesVenta;
-	  UnidadVenta unidadVentaAux = null;
-	  
-	  for(int i = 0; i < lstReportes.size()-1; i++) { 
-		  if(lstReportes.get(i).getRecaudacionTotal() < lstReportes.get(i+1).getRecaudacionTotal()) {
-			  unidadVentaAux = ranking.get(i);
-			  ranking.remove(i);
-			  ranking.add(i);
-		  } 
-	  }
-	  
-	  public ArrayList<Unidad> rankingUnidades(ArrayList<Unidad> unidades) {
+		    List<ReporteVenta> ranking = new ArrayList<>();
 
-		    for(int i = 0; i < unidades.size() - 1; i++) {
+		    ranking = this.lstReportes;
+		    
+		    for(int i = 0; i < ranking.size() - 1; i++) {
 
 		        int posMayor = i;
 
-		        for(int j = i + 1; j < unidades.size(); j++) {
+		        for(int j = i + 1; j < ranking.size(); j++) {
 
-		            if(reporteVenta.obtenerRecaudacion(unidades.get(j))
-		                    > reporteVenta.obtenerRecaudacion(unidades.get(posMayor))) {
+		            if(ranking.get(j).getRecaudacionTotal() >
+		               ranking.get(posMayor).getRecaudacionTotal()) {
 
 		                posMayor = j;
 		            }
 		        }
 
-		        Unidad aux = unidades.get(i);
-		        unidades.set(i, unidades.get(posMayor));
-		        unidades.set(posMayor, aux);
+		        ReporteVenta aux = ranking.get(i);
+		        ranking.set(i, ranking.get(posMayor));
+		        ranking.set(posMayor, aux);
 		    }
 
-		    return unidades;
+		    return ranking;
 		}
 	  
-	  return ranking;
-	}
 	
 	public double obtenerRecaudacionFestival(Festival festival){
 		  

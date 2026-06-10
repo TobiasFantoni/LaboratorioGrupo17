@@ -28,5 +28,12 @@ public class ReporteVenta {
 	public void setRankingUnidad(UnidadVenta rankingUnidad) {
 		this.rankingUnidad = rankingUnidad;
 	}
+
+	@Override
+	public String toString() {
+		return "ReporteVenta [recaudacionTotal=" + recaudacionTotal + ", rankingUnidad=" + rankingUnidad + "]";
+	}
+	
+	
 	
 }

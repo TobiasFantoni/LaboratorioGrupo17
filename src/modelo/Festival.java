@@ -86,7 +86,6 @@ public class Festival {
 		public int hashCode() {
 			return Objects.hash(fechaFin, fechaIni, nombre);
 		}
-
 		
 		public boolean equals(Festival f) {
 			return this.nombre.equalsIgnoreCase(f.nombre) && this.temporada.equalsIgnoreCase(f.temporada) && this.fechaIni.isEqual(fechaIni);

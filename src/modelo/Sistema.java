@@ -12,6 +12,7 @@ public class Sistema {
 	private List<Pedido> lstPedidos;
 	private List<ReporteVenta> lstReportes;
 	
+	
 	//Constructor
 	public Sistema() {
 		
@@ -68,6 +69,24 @@ public class Sistema {
 	
 	public boolean eliminarFestival(Festival festival) {
 		return this.lstFestivales.remove(festival);
+	}
+	
+	public boolean agregarUnidadVentaParaFestival(Festival f, UnidadVenta u) throws Exception {
+		
+		if(buscarUnidadDeVentaEnFestival(u.getId(), f) == true)throw new Exception("La unidad ya existe en el festival");
+		
+		return f.getLstUnidadVentas().add(u);
+	}
+	
+	public boolean buscarUnidadDeVentaEnFestival(int id,Festival f) throws Exception {
+		boolean repetido = false;
+		
+		for(int i = 0; i < f.getLstUnidadVentas().size(); i++) {
+			if(f.getLstUnidadVentas().get(i).getId() == id) {
+				repetido = true;
+			}
+		}
+		return repetido;
 	}
 	
 	public Persona buscarPersonaPorDni(long dni) {
@@ -179,12 +198,7 @@ public class Sistema {
 		return this.lstUnidadesVenta.remove(buscarUnidadVentaPorCodigoUnico(codigoUnico));
 	}
 	
-	public Persona buscarPersonalPorDni(long dni) {
-		
-		Persona personaEncontrada = null;
-		
-		return personaEncontrada;
-	}
+
 	
 	public UnidadVenta buscarUnidadVentaPorCodigoUnico(String codigoUnico) {
 		
@@ -253,7 +267,7 @@ public class Sistema {
 		    
 		    ranking = this.obtenerRecaudacionFestival(festival);
 	
-		    this.ordenarPorUnidadesVendidas(ranking);
+		    ranking = this.ordenarPorUnidadesVendidas(ranking);
 		    
 		    return ranking;
 		}

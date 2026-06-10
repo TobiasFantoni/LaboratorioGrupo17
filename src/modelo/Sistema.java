@@ -155,6 +155,7 @@ public class Sistema {
 		    ranking = this.obtenerRecaudacionFestival(festival);
 	
 		    this.ordenarPorUnidadesVendidas(ranking);
+		    
 
 		    return ranking;
 		}
@@ -162,8 +163,9 @@ public class Sistema {
 	 private List<ReporteVenta> ordenarPorUnidadesVendidas(List<ReporteVenta> reporteVentas) {
 
 		    for (int i = 0; i < reporteVentas.size() - 1; i++) {
+
 		        for (int j = 0; j < reporteVentas.size()- 1 - i; j++) {
-		            if (this.calcularRentabilidadNeta(reporteVentas.get(j).getRankingUnidad()) < this.calcularRentabilidadNeta(reporteVentas.get(j+1).getRankingUnidad())) {
+		            if (reporteVentas.get(j).getRecaudacionTotal() < reporteVentas.get(j+1).getRecaudacionTotal()) {
 		            	ReporteVenta aux = reporteVentas.get(j);
 		            	reporteVentas.set(j, reporteVentas.get(j + 1));
 		            	reporteVentas.set(j + 1, aux);

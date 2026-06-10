@@ -143,29 +143,37 @@ public class Sistema {
 		return lstRecaudacion;
 	}
 	  
+	/*
+	 * public List<ReporteVenta> rankingUnidades() {
+	 * 
+	 * List<ReporteVenta> ranking = new ArrayList<>();
+	 * 
+	 * ranking = this.lstReportes;
+	 * 
+	 * for(int i = 0; i < ranking.size() - 1; i++) {
+	 * 
+	 * int posMayor = i;
+	 * 
+	 * for(int j = i + 1; j < ranking.size(); j++) {
+	 * 
+	 * if(ranking.get(j).getRecaudacionTotal() >
+	 * ranking.get(posMayor).getRecaudacionTotal()) {
+	 * 
+	 * posMayor = j; } }
+	 * 
+	 * ReporteVenta aux = ranking.get(i); ranking.set(i, ranking.get(posMayor));
+	 * ranking.set(posMayor, aux); }
+	 * 
+	 * return ranking; }
+	 */
+	  
 	  public List<ReporteVenta> rankingUnidades() {
 
 		    List<ReporteVenta> ranking = new ArrayList<>();
 
 		    ranking = this.lstReportes;
 		    
-		    for(int i = 0; i < ranking.size() - 1; i++) {
-
-		        int posMayor = i;
-
-		        for(int j = i + 1; j < ranking.size(); j++) {
-
-		            if(ranking.get(j).getRecaudacionTotal() >
-		               ranking.get(posMayor).getRecaudacionTotal()) {
-
-		                posMayor = j;
-		            }
-		        }
-
-		        ReporteVenta aux = ranking.get(i);
-		        ranking.set(i, ranking.get(posMayor));
-		        ranking.set(posMayor, aux);
-		    }
+		    
 
 		    return ranking;
 		}
@@ -242,6 +250,56 @@ public class Sistema {
 	    if (tercero != null) top3.add(tercero);
 
 	    return top3;
+	}
+	
+private double calcularGananciaNetaDePedidosPorUnidad(UnidadVenta u) {
+		
+		double gananciaPedidos = 0;
+		
+		for(Pedido p : this.filtrarPedidosPorUnidad(u)) {
+				gananciaPedidos += p.calcularGananciaNeta();
+		}
+		
+		return gananciaPedidos;
+		
+	}
+	
+	private double calcularSueldosPorUnidad(UnidadVenta u) {
+		
+		double total = 0;
+		
+		for(Persona p : u.getLstStaff()) {
+			
+			total += p.calcularSueldo(); 
+		}
+		
+		return total;
+	}
+	
+	private List<Pedido> filtrarPedidosEntreFechas(List<Pedido> pedidos,LocalDate desde, LocalDate hasta){
+		
+		List<Pedido> pedidosFiltrados = new ArrayList<Pedido>();
+		
+		for(Pedido p : pedidos) {
+			if((p.getFecha().equals(desde)||p.getFecha().isAfter(desde)) && (p.getFecha().equals(hasta) || p.getFecha().isBefore(hasta))) {
+				
+				pedidosFiltrados.add(p);
+				
+			}
+		}
+		
+		return pedidosFiltrados;
+		
+	}
+	
+	
+	public double calcularRentabilidadNeta(UnidadVenta u) {
+		
+		double totalSueldos = this.calcularSueldosPorUnidad(u);
+		double gananciaPedidos = this.calcularGananciaNetaDePedidosPorUnidad(u);
+
+		return gananciaPedidos-totalSueldos-u.calcularCanon();
+		
 	}
 	
 }

@@ -34,7 +34,7 @@ public class Pedido {
 	}
 
 	
-	public double calcularCostoPedido() {
+	private double calcularCostoPedido() {
 		
 		double costoTotal=0;
 		
@@ -47,6 +47,10 @@ public class Pedido {
 		}
 		
 		return costoTotal;
+	}
+	
+	public double calcularGananciaNeta() {
+		return this.calcularTotalPedido()-this.calcularCostoPedido();
 	}
 	
 	//getters y setters

@@ -154,9 +154,80 @@ public class Sistema {
 		return canons;
 	}
 	
+	private List<Pedido> filtrarPedidosPorUnidad(UnidadVenta u) {
+		
+		List<Pedido> pedidosFiltrados = new ArrayList<Pedido>();
+		
+		for(Pedido p : this.lstPedidos) {
+			if(p.getUnidadVenta().equals(u)) {
+				pedidosFiltrados.add(p);
+			}
+		}
+		
+		return pedidosFiltrados;
+	}
+	
+	
+	private double calcularGananciaNetaDePedidosPorUnidad(UnidadVenta u) {
+		
+		double gananciaPedidos = 0;
+		
+		for(Pedido p : this.filtrarPedidosPorUnidad(u)) {
+				gananciaPedidos += p.calcularGananciaNeta();
+		}
+		
+		return gananciaPedidos;
+		
+	}
+	
+	private double calcularSueldosPorUnidad(UnidadVenta u) {
+		
+		double total = 0;
+		
+		for(Persona p : u.getLstStaff()) {
+			
+			total += p.calcularSueldo(); 
+		}
+		
+		return total;
+	}
+	
+	private List<Pedido> filtrarPedidosEntreFechas(List<Pedido> pedidos,LocalDate desde, LocalDate hasta){
+		
+		List<Pedido> pedidosFiltrados = new ArrayList<Pedido>();
+		
+		for(Pedido p : pedidos) {
+			if((p.getFecha().equals(desde)||p.getFecha().isAfter(desde)) && (p.getFecha().equals(hasta) || p.getFecha().isBefore(hasta))) {
+				
+				pedidosFiltrados.add(p);
+				
+			}
+		}
+		
+		return pedidosFiltrados;
+		
+	}
+	
+	
 	public double calcularRentabilidadNeta(UnidadVenta u) {
 		
-		for();
+		double totalSueldos = this.calcularSueldosPorUnidad(u);
+		double gananciaPedidos = this.calcularGananciaNetaDePedidosPorUnidad(u);
+
+		return gananciaPedidos-totalSueldos-u.calcularCanon();
+		
+	}
+	
+	public double calcularRentabilidadNetaEntreFechas(UnidadVenta u,LocalDate desde, LocalDate hasta) {
+		
+		List<Pedido> pedidos = this.filtrarPedidosEntreFechas(this.filtrarPedidosPorUnidad(u), desde, hasta);
+		double totalSueldos = 0;
+		double gananciaPedidos = 0;
+		
+		
+		for(Pedido p : pedidos) {
+			gananciaPedidos += p.calcularGananciaNeta();
+		}
 		
 	}
 	

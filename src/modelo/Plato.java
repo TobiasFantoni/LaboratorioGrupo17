@@ -9,11 +9,11 @@ public class Plato {
 
 
 	//constructor
-	public Plato(int id, String nombre, float precio, float costo) {
+	public Plato(int id, String nombre, float precio, float costo) throws Exception {
 		this.id = id;
 		this.nombre = nombre;
-		this.precio = precio;
-		this.costo = costo;
+		this.setPrecio(precio);
+		this.setCosto(costo);
 	}
 	
 	
@@ -42,7 +42,8 @@ public class Plato {
 		return precio;
 	}
 
-	public void setPrecio(float precio) {
+	public void setPrecio(float precio) throws Exception{
+		if(precio <= 0)throw new Exception("El precio debe ser de un valor positivo");
 		this.precio = precio;
 	}
 
@@ -50,7 +51,8 @@ public class Plato {
 		return costo;
 	}
 
-	public void setCosto(float costo) {
+	public void setCosto(float costo)throws Exception {
+		if(costo <= 0)throw new Exception("El costo debe ser de un valor positivo");
 		this.costo = costo;
 	}
 

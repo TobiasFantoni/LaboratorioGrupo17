@@ -63,7 +63,7 @@ public abstract class Persona {
 	public double calcularAntiguedad() {
 		long diasIngreso = this.fechaIngreso.toEpochDay();
         long diasActual = LocalDate.now().toEpochDay();
-
+        
         return (diasActual - diasIngreso) / 365;
 	}
 
@@ -72,7 +72,4 @@ public abstract class Persona {
 		return "\nPersona [dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", fechaNacimiento="
 				+ fechaNacimiento + ", fechaIngreso=" + fechaIngreso + ", sueldoBase=" + sueldoBase + "]";
 	}
-	
-	
-	
 }

@@ -73,16 +73,16 @@ public class Sistema {
 	
 	public boolean agregarUnidadVentaParaFestival(Festival f, UnidadVenta u) throws Exception {
 		
-		if(buscarUnidadDeVentaEnFestival(u.getId(), f) == true)throw new Exception("La unidad ya existe en el festival");
+		if(buscarUnidadDeVentaEnFestival(u.getCodigoUnico(), f) == true)throw new Exception("La unidad ya existe en el festival");
 		
 		return f.getLstUnidadVentas().add(u);
 	}
 	
-	public boolean buscarUnidadDeVentaEnFestival(int id,Festival f) throws Exception {
+	public boolean buscarUnidadDeVentaEnFestival(String codigoUnico,Festival f) throws Exception {
 		boolean repetido = false;
 		
 		for(int i = 0; i < f.getLstUnidadVentas().size(); i++) {
-			if(f.getLstUnidadVentas().get(i).getId() == id) {
+			if(f.getLstUnidadVentas().get(i).getCodigoUnico().equals(codigoUnico)) {
 				repetido = true;
 			}
 		}
@@ -306,7 +306,9 @@ public class Sistema {
 		
 		double gananciaPedidos = 0;
 		
+		//Este for que hace?
 		for(Pedido p : this.filtrarPedidosPorUnidad(u)) {
+		
 				gananciaPedidos += p.calcularGananciaNeta();
 		}
 		
@@ -347,10 +349,24 @@ public class Sistema {
 		
 		double totalSueldos = this.calcularSueldosPorUnidad(u);
 		double gananciaPedidos = this.calcularGananciaNetaDePedidosPorUnidad(u);
-
-		return gananciaPedidos-totalSueldos-u.calcularCanon();
+		
+		
+		return totalSueldos-gananciaPedidos-u.calcularCanon();
 		
 	}
+	
+	
+	  public double calcularRentabilidadNetaEntreFechas(UnidadVenta u,LocalDate desde, LocalDate hasta) {
+	  
+	  List<Pedido> pedidos =
+	  this.filtrarPedidosEntreFechas(this.filtrarPedidosPorUnidad(u), desde,
+	  hasta); double totalSueldos = 0; double gananciaPedidos = 0;
+	  
+	  
+	  for(Pedido p : pedidos) { gananciaPedidos += p.calcularGananciaNeta(); }
+	  
+	  }
+	 
 	
 	private List<Pedido> filtrarPedidosPorUnidad(UnidadVenta u) {
 		

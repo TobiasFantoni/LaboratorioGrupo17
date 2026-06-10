@@ -12,14 +12,14 @@ public abstract class UnidadVenta {
 	protected List<Plato> lstPlatos;
 	protected String codigoUnico;
 
-	public UnidadVenta(int id, String nombreComercial, Persona responsable, double superficie, List<Persona> lstStaff, String codigoUnico) {
+	public UnidadVenta(int id, String nombreComercial, Persona responsable, double superficie, List<Persona> lstStaff, String codigoUnico) throws Exception {
 		this.id = id;
 		this.nombreComercial = nombreComercial;
 		this.responsable = responsable;
 		this.superficie = superficie;
 		this.lstStaff = lstStaff;
 		this.lstPlatos = new ArrayList<Plato>();
-		this.codigoUnico = codigoUnico;
+		this.setCodigoUnico(codigoUnico);
 	}
 
 	// getters y setters
@@ -75,7 +75,8 @@ public abstract class UnidadVenta {
 		return codigoUnico;
 	}
 
-	public void setCodigoUnico(String codigoUnico) {
+	public void setCodigoUnico(String codigoUnico) throws Exception{
+		if(codigoUnico.length() != 10) throw new Exception("El codigo unico debe tener una longitud de 10 caracteres");
 		this.codigoUnico = codigoUnico;
 	}
 	
@@ -102,7 +103,7 @@ public abstract class UnidadVenta {
 	}
 	
 	public boolean agregarPlato(String nombre, float precio, float costo) throws Exception {
-		if(buscarPlatoPorNombre(codigoUnico) != null)throw new Exception("El plato ya existe");
+		if(buscarPlatoPorNombre(nombre) != null)throw new Exception("El plato ya existe");
 		
 		int id = 1;
 		
@@ -110,7 +111,6 @@ public abstract class UnidadVenta {
 			id = this.lstPlatos.getLast().getId() + 1;
 		}
 		
-	
 		return this.lstPlatos.add(new Plato(id,nombre,precio,costo));
 	}
 	

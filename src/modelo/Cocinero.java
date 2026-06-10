@@ -18,6 +18,7 @@ public class Cocinero extends Persona{
 	
 	@Override
 	public double calcularSueldo() {
+		
 		return this.sueldoBase + this.plusCategoria;
 	}
 

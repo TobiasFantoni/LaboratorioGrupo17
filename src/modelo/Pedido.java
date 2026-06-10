@@ -9,15 +9,15 @@ public class Pedido {
 	private LocalDate fecha;
 	private UnidadVenta unidadVenta;
 	private List<ItemPedido> lstItemsPedido;
-	private boolean estado;
+	private boolean terminado;
 	
 	//constructor
-	public Pedido(int id, LocalDate fecha, UnidadVenta unidadVenta, List<ItemPedido> lstItemsPedido, boolean estado) {
+	public Pedido(int id, LocalDate fecha, UnidadVenta unidadVenta, List<ItemPedido> lstItemsPedido, boolean terminado) {
 		this.id = id;
 		this.fecha = fecha;
 		this.unidadVenta = unidadVenta;
 		this.lstItemsPedido = lstItemsPedido;
-		this.estado = estado;
+		this.terminado = terminado;
 	}
 	
 	public double calcularTotalPedido() {
@@ -50,6 +50,7 @@ public class Pedido {
 	}
 	
 	public double calcularGananciaNeta() {
+		
 		return this.calcularTotalPedido()-this.calcularCostoPedido();
 	}
 	
@@ -87,12 +88,12 @@ public class Pedido {
 		this.lstItemsPedido = lstItemsPedido;
 	}
 
-	public boolean isEstado() {
-		return estado;
+	public boolean isTerminado() {
+		return terminado;
 	}
 
-	public void setEstado(boolean estado) {
-		this.estado = estado;
+	public void setTerminado(boolean terminado) {
+		this.terminado = terminado;
 	}
 	
 	

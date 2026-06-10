@@ -5,12 +5,12 @@ import java.util.List;
 
 public class ReporteVenta {
 	private double recaudacionTotal;
-	private List<UnidadVenta> rankingUnidad;
+	private UnidadVenta rankingUnidad;
 	
-	public ReporteVenta(double recaudacionTotal) {
+	public ReporteVenta(double recaudacionTotal, UnidadVenta rankingUnidad) {
 		super();
 		this.recaudacionTotal = recaudacionTotal;
-		this.rankingUnidad = new ArrayList<UnidadVenta>();
+		this.rankingUnidad = rankingUnidad;
 	}
 
 	public double getRecaudacionTotal() {
@@ -21,11 +21,11 @@ public class ReporteVenta {
 		this.recaudacionTotal = recaudacionTotal;
 	}
 
-	public List<UnidadVenta> getRankingUnidad() {
+	public UnidadVenta getRankingUnidad() {
 		return rankingUnidad;
 	}
 
-	public void setRankingUnidad(List<UnidadVenta> rankingUnidad) {
+	public void setRankingUnidad(UnidadVenta rankingUnidad) {
 		this.rankingUnidad = rankingUnidad;
 	}
 	

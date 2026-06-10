@@ -19,8 +19,36 @@ public class Pedido {
 		this.lstItemsPedido = lstItemsPedido;
 		this.estado = estado;
 	}
+	
+	public double calcularTotalPedido() {
+		
+		double total = 0;
+		for(ItemPedido i : this.getLstItemsPedido()) {
+			
+			Plato platoItem = i.getPlato();
+			
+			total += platoItem.getPrecio()*i.getCantidad();
+			
+		}
+		return total;
+	}
 
-
+	
+	public double calcularCostoPedido() {
+		
+		double costoTotal=0;
+		
+		for(ItemPedido i : this.getLstItemsPedido()) {
+			
+			Plato platoItem = i.getPlato();
+			
+			costoTotal += platoItem.getCosto()*i.getCantidad();
+			
+		}
+		
+		return costoTotal;
+	}
+	
 	//getters y setters
 	
 	public int getId() {

@@ -154,6 +154,12 @@ public class Sistema {
 		return canons;
 	}
 	
+	public double calcularRentabilidadNeta(UnidadVenta u) {
+		
+		for();
+		
+	}
+	
 	public boolean agregarUnidadVenta(UnidadVenta unidadVenta) {
 		
 		

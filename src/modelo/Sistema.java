@@ -136,12 +136,6 @@ public class Sistema {
 	}
 	
 	
-	public List<ReporteVenta> obtenerRecaudacionFestival(Festival festival) {
-
-		List<ReporteVenta> lstRecaudacion = new ArrayList<ReporteVenta>();
-
-		return lstRecaudacion;
-	}
 	  
 	/*
 	 * public List<ReporteVenta> rankingUnidades() {
@@ -184,25 +178,13 @@ public class Sistema {
 		  double recaudacionFestival = 0;
 		  
 		  for(int i = 0; i < festival.getLstUnidadVentas().size(); i++) { 
-			  recaudacionFestival = recaudacionFestival + festival.getLstUnidadVentas().get(i).calcularRentabilidad();
+			  recaudacionFestival = recaudacionFestival + this.calcularRentabilidadNeta(festival.getLstUnidadVentas().get(i));
 		  }
 		  
 		  return recaudacionFestival;
 		}
 	
 	
-	//getters y setters
-	
-	public double obtenerRecaudacionFestival(Festival festival){
-		  
-		  double recaudacionFestival = 0;
-		  
-		  for(int i = 0; i < festival.getLstUnidadVentas().size(); i++) { 
-			  recaudacionFestival = recaudacionFestival + festival.getLstUnidadVentas().get(i).calcularRentabilidad();
-		  }
-		  
-		  return recaudacionFestival;
-		}
 	
 	public List<Canon> canonsPorFestival(Festival f) {
 		
@@ -220,7 +202,7 @@ public class Sistema {
 	public List<Canon> canonTop3(Festival f) {
 		
 		List<Canon> canonList = new ArrayList<Canon>();
-
+		List<Canon> top3 = new ArrayList<>();
 		canonList = this.canonsPorFestival(f);
 		
 		Canon primero = null;
@@ -243,11 +225,15 @@ public class Sistema {
 	        }
 	    }
 
-	    List<Canon> top3 = new ArrayList<>();
-
-	    if (primero != null) top3.add(primero);
-	    if (segundo != null) top3.add(segundo);
-	    if (tercero != null) top3.add(tercero);
+	    if (primero != null) {
+	    	top3.add(primero);
+	    }
+	    if (segundo != null) {
+	    	top3.add(segundo);
+	    }
+	    if (tercero != null) {
+	    	top3.add(tercero);
+	    }
 
 	    return top3;
 	}
@@ -300,6 +286,19 @@ private double calcularGananciaNetaDePedidosPorUnidad(UnidadVenta u) {
 
 		return gananciaPedidos-totalSueldos-u.calcularCanon();
 		
+	}
+	
+	private List<Pedido> filtrarPedidosPorUnidad(UnidadVenta u) {
+		
+		List<Pedido> pedidosFiltrados = new ArrayList<Pedido>();
+		
+		for(Pedido p : this.lstPedidos) {
+			if(p.getUnidadVenta().equals(u)) {
+				pedidosFiltrados.add(p);
+			}
+		}
+		
+		return pedidosFiltrados;
 	}
 	
 }

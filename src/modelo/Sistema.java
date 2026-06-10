@@ -134,57 +134,44 @@ public class Sistema {
 		
 		return pedidoEncontrado;
 	}
+	  	
+	public List<ReporteVenta> obtenerRecaudacionFestival(Festival festival){
+
+	    List<ReporteVenta> reporte = new ArrayList<>();
+	    
+	    for(int i = 0; i < festival.getLstUnidadVentas().size(); i++) {
+	    	 double recaudacionFestival = 0;
+	    	 recaudacionFestival = recaudacionFestival + this.calcularRentabilidadNeta(festival.getLstUnidadVentas().get(i));
+	    	 reporte.add(new ReporteVenta(recaudacionFestival, festival.getLstUnidadVentas().get(i)));
+	    }
+
+	    return reporte;
+	}
 	
-	
-	  
-	/*
-	 * public List<ReporteVenta> rankingUnidades() {
-	 * 
-	 * List<ReporteVenta> ranking = new ArrayList<>();
-	 * 
-	 * ranking = this.lstReportes;
-	 * 
-	 * for(int i = 0; i < ranking.size() - 1; i++) {
-	 * 
-	 * int posMayor = i;
-	 * 
-	 * for(int j = i + 1; j < ranking.size(); j++) {
-	 * 
-	 * if(ranking.get(j).getRecaudacionTotal() >
-	 * ranking.get(posMayor).getRecaudacionTotal()) {
-	 * 
-	 * posMayor = j; } }
-	 * 
-	 * ReporteVenta aux = ranking.get(i); ranking.set(i, ranking.get(posMayor));
-	 * ranking.set(posMayor, aux); }
-	 * 
-	 * return ranking; }
-	 */
-	  
-	  public List<ReporteVenta> rankingUnidades() {
+	 public List<ReporteVenta> rankingUnidades(Festival festival) {
 
 		    List<ReporteVenta> ranking = new ArrayList<>();
-
-		    ranking = this.lstReportes;
 		    
-		    
+		    ranking = this.obtenerRecaudacionFestival(festival);
+	
+		    this.ordenarPorUnidadesVendidas(ranking);
 
 		    return ranking;
 		}
-	  
-	
-	public double obtenerRecaudacionFestival(Festival festival){
-		  
-		  double recaudacionFestival = 0;
-		  
-		  for(int i = 0; i < festival.getLstUnidadVentas().size(); i++) { 
-			  recaudacionFestival = recaudacionFestival + this.calcularRentabilidadNeta(festival.getLstUnidadVentas().get(i));
-		  }
-		  
-		  return recaudacionFestival;
+	 
+	 private List<ReporteVenta> ordenarPorUnidadesVendidas(List<ReporteVenta> reporteVentas) {
+
+		    for (int i = 0; i < reporteVentas.size() - 1; i++) {
+		        for (int j = 0; j < reporteVentas.size()- 1 - i; j++) {
+		            if (this.calcularRentabilidadNeta(reporteVentas.get(j).getRankingUnidad()) < this.calcularRentabilidadNeta(reporteVentas.get(j+1).getRankingUnidad())) {
+		            	ReporteVenta aux = reporteVentas.get(j);
+		            	reporteVentas.set(j, reporteVentas.get(j + 1));
+		            	reporteVentas.set(j + 1, aux);
+		            }
+		        }
+		    }
+		    return reporteVentas;
 		}
-	
-	
 	
 	public List<Canon> canonsPorFestival(Festival f) {
 		
@@ -238,7 +225,7 @@ public class Sistema {
 	    return top3;
 	}
 	
-private double calcularGananciaNetaDePedidosPorUnidad(UnidadVenta u) {
+	private double calcularGananciaNetaDePedidosPorUnidad(UnidadVenta u) {
 		
 		double gananciaPedidos = 0;
 		

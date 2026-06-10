@@ -59,6 +59,25 @@ public class Sistema {
 		return personaEncontrada;
 	}
 	
+	public List<Persona> filtrarPersonalPorEdad(LocalDate desde, LocalDate hasta){
+		
+		List<Persona> personas = new ArrayList<Persona>();
+		
+		for(Persona p : this.lstPersonalGlobal) {
+			
+			if((p.getFechaNacimiento().isAfter(desde)
+					||p.getFechaNacimiento().equals(desde)) 
+					&& 
+					(p.getFechaNacimiento().isBefore(hasta)
+							||p.getFechaNacimiento().equals(hasta))) {
+				
+				personas.add(p);
+			}
+		}
+		
+		return personas;
+	}
+	
 	public boolean agregarCocinero(long dni, String nombre, String apellido, LocalDate fechaNacimiento, float sueldoBase, String especialidad, int plusCategoria) throws Exception {
 		
 		LocalDate edadLimite = LocalDate.now().minusYears(18);
@@ -95,6 +114,33 @@ public class Sistema {
 		return this.lstPersonalGlobal.remove(buscarPersonaPorDni(dni));
 	}
 	
+	public double calcularTotalDeImporteDeSueldosPorUnidadVenta(UnidadVenta u) {
+		
+		double total = 0;
+			
+			for(Persona p : u.getLstStaff()) {
+				total += p.calcularSueldo();
+			}
+		
+		return total;
+	}
+	
+	
+	public double calcularTotalDeImporteDeSueldosPorFestival(Festival f) {
+		
+		double total = 0;
+		
+		for(UnidadVenta u : f.getLstUnidadVentas()) {
+			
+			total += this.calcularTotalDeImporteDeSueldosPorUnidadVenta(u);
+			
+		}
+		
+		return total;
+	}
+	
+	
+
 	public List<Canon> canonsPorFestival(Festival f) {
 		
 		List<Canon> canons = new ArrayList<Canon>();

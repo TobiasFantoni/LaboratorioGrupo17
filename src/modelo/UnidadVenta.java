@@ -84,6 +84,6 @@ abstract public class UnidadVenta {
 		return this.codigoUnico.equals(unidad.getCodigoUnico());
 	}
 	
-	abstract public double calcularCanon();
+	public abstract double calcularCanon();
 
 }

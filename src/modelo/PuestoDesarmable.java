@@ -31,7 +31,7 @@ public class PuestoDesarmable extends UnidadVenta{
 		this.tiempoMontaje = tiempoMontaje;
 	}
 	
-	
+	@Override
 	public double calcularCanon(){
 		
 		double canon = 0;

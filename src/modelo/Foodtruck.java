@@ -30,6 +30,7 @@ public class Foodtruck extends UnidadVenta {
 		this.usaLuz = usaLuz;
 	}
 	
+	@Override
 	public double calcularCanon(){
 		
 		double canon = 0;

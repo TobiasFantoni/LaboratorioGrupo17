@@ -12,7 +12,6 @@ public class Sistema {
 	private List<Pedido> lstPedidos;
 	private List<ReporteVenta> lstReportes;
 	
-	//Putaaa
 	//Constructor
 	public Sistema() {
 		
@@ -51,7 +50,7 @@ public class Sistema {
 		return this.lstPersonalGlobal.remove(persona);
 	}
 	
-	public boolean agregarUnidadVenta(String nombreComercial, Persona persona, double superficie, List<Persona> staff, List<Plato> platos, String codigoUnico) throws Exception {
+	public boolean agregarUnidadVentaPuestoDesmotable(String nombreComercial, Persona persona, double superficie, List<Persona> staff, List<Plato> platos, String codigoUnico, int cantidad, int tiempoMontaje) throws Exception {
 		if(buscarUnidadVentaPorCodigoUnico(codigoUnico) != null)throw new Exception("La unidad ya existe");
 		
 		int id = 1;
@@ -60,8 +59,21 @@ public class Sistema {
 			id = this.lstUnidadesVenta.getLast().getId() + 1;
 		}
 		
+	
+		return this.lstUnidadesVenta.add(new PuestoDesarmable(id,nombreComercial,persona,superficie,staff,platos,codigoUnico, cantidad, tiempoMontaje));
+	}
+	
+	public boolean agregarUnidadVentaFoodTruck(String nombreComercial, Persona persona, double superficie, List<Persona> staff, List<Plato> platos, String codigoUnico,  String patente, boolean usaLuz) throws Exception {
+		if(buscarUnidadVentaPorCodigoUnico(codigoUnico) != null)throw new Exception("La unidad ya existe");
 		
-		return this.lstUnidadesVenta.add(new UnidadVenta(id,nombreComercial,persona,superficie,staff,platos,codigoUnico));
+		int id = 1;
+		
+		if(this.lstUnidadesVenta.isEmpty() != true) {
+			id = this.lstUnidadesVenta.getLast().getId() + 1;
+		}
+		
+	
+		return this.lstUnidadesVenta.add(new Foodtruck(id,nombreComercial,persona,superficie,staff,platos,codigoUnico, patente, usaLuz));
 	}
 	
 	public boolean eliminarUnidadVenta(String codigoUnico) throws Exception{

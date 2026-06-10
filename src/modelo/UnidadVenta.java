@@ -2,7 +2,7 @@ package modelo;
 
 import java.util.List;
 
-abstract public class UnidadVenta {
+public abstract class UnidadVenta {
 	protected int id;
 	protected String nombreComercial;
 	protected Persona responsable;

@@ -13,7 +13,7 @@ public class Canon {
 
 	@Override
 	public String toString() {
-		return "Canon [codigo=" + codigo + ", nombreComercial=" + nombreComercial + ", canon=" + canon + "]";
+		return "\ncodigo=" + codigo + ", nombreComercial=" + nombreComercial + ", canon=" + canon;
 	}
 
 	public String getCodigo() {

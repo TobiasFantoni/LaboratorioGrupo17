@@ -28,15 +28,16 @@ public class Test {
 		}
 		
 		try {
-			sistema.agregarUnidadVentaPuestoDesmotable("Burger House", sistema.buscarPersonaPorDni(35678912), 25.0, sistema.getLstPersonalGlobal(), "PD00000001", 3, 120);
-			sistema.agregarUnidadVentaPuestoDesmotable("Taco Express", sistema.buscarPersonaPorDni(33456789), 18.0, sistema.getLstPersonalGlobal(), "PD00000002", 2, 90);
-			sistema.agregarUnidadVentaPuestoDesmotable("Parrilla Criolla", sistema.buscarPersonaPorDni(27894561), 35.0, sistema.getLstPersonalGlobal(), "PD00000005", 5, 180);
-			sistema.agregarUnidadVentaFoodTruck("Chori Móvil", sistema.buscarPersonaPorDni(28987654), 20.0, sistema.getLstPersonalGlobal(), "FT00000001", "AE123BC", true);
-			sistema.agregarUnidadVentaFoodTruck("Burger Wheels", sistema.buscarPersonaPorDni(27894561), 22.0, sistema.getLstPersonalGlobal(), "FT00000002", "AF456CD", false);
-			sistema.agregarUnidadVentaFoodTruck("Tacos Sobre Ruedas", sistema.buscarPersonaPorDni(32145678), 19.5, sistema.getLstPersonalGlobal(), "FT00000003", "AG789EF", true);
+			sistema.agregarUnidadVentaPuestoDesmotable("Burger House", sistema.buscarPersonaPorDni(35678912), 25.0, "PD00000001", 3, 120);
+			sistema.agregarUnidadVentaPuestoDesmotable("Taco Express", sistema.buscarPersonaPorDni(33456789), 18.0, "PD00000002", 2, 90);
+			sistema.agregarUnidadVentaPuestoDesmotable("Parrilla Criolla", sistema.buscarPersonaPorDni(27894561), 35.0, "PD00000005", 5, 180);
+			sistema.agregarUnidadVentaFoodTruck("Chori Móvil", sistema.buscarPersonaPorDni(28987654), 20.0, "FT00000001", "AE123BC", true);
+			sistema.agregarUnidadVentaFoodTruck("Burger Wheels", sistema.buscarPersonaPorDni(27894561), 22.0, "FT00000002", "AF456CD", false);
+			sistema.agregarUnidadVentaFoodTruck("Tacos Sobre Ruedas", sistema.buscarPersonaPorDni(32145678), 19.5, "FT00000003", "AG789EF", true);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		
 		
 		UnidadVenta unidad1F1 = sistema.buscarUnidadVentaPorCodigoUnico("PD00000001");
 		UnidadVenta unidad2F1 = sistema.buscarUnidadVentaPorCodigoUnico("PD00000002");
@@ -44,6 +45,24 @@ public class Test {
 		UnidadVenta unidad1F2 = sistema.buscarUnidadVentaPorCodigoUnico("FT00000001");
 		UnidadVenta unidad2F2 = sistema.buscarUnidadVentaPorCodigoUnico("FT00000002");
 		UnidadVenta unidad3F2 = sistema.buscarUnidadVentaPorCodigoUnico("FT00000003");
+		
+		try {
+			sistema.agregarPersonal(unidad1F1, 30123456);
+			sistema.agregarPersonal(unidad1F1, 35678912);
+			sistema.agregarPersonal(unidad2F1, 27894561);
+			sistema.agregarPersonal(unidad2F1, 28987654);
+			sistema.agregarPersonal(unidad3F1, 30123456);
+			sistema.agregarPersonal(unidad3F1, 33456789);
+			sistema.agregarPersonal(unidad1F2, 27894561);
+			sistema.agregarPersonal(unidad1F2, 35678912);
+			sistema.agregarPersonal(unidad2F2, 30123456);
+			sistema.agregarPersonal(unidad2F2, 28987654);
+			sistema.agregarPersonal(unidad3F2, 27894561);
+			sistema.agregarPersonal(unidad3F2, 33456789);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		try {
 			sistema.agregarFestival("Cosquín Rock", "Verano", 1500.0, LocalDate.of(2026, 1, 15), LocalDate.of(2026, 2, 15));
@@ -94,18 +113,18 @@ public class Test {
 		
 		try {
 			System.out.println("Agregando platos a las unidades de venta:");
-			unidad1F1.agregarPlato("Hamburguesa", 1000, 5000);
-			unidad1F1.agregarPlato("Papas", 500, 2000);
-			unidad2F1.agregarPlato("Ensalada", 1000, 15000);
-			unidad2F1.agregarPlato("Aderezo", 500, 2000);
-			unidad3F1.agregarPlato("Balde nuggets", 3000, 20000);
-			unidad3F1.agregarPlato("Gaseosa", 1000, 8000);
-			unidad1F2.agregarPlato("Pancho", 1000, 5000);
-			unidad1F2.agregarPlato("Sprite", 500, 2000);
-			unidad2F2.agregarPlato("Sundae", 1000, 7000);
-			unidad2F2.agregarPlato("Torta", 1000, 10000);
-			unidad3F2.agregarPlato("Wrap de pollo", 2000, 10000);
-			unidad3F2.agregarPlato("Mayonesa", 500, 2000);
+			unidad1F1.agregarPlato("Hamburguesa", 100000, 5000);
+			unidad1F1.agregarPlato("Papas", 500000, 2000);
+			unidad2F1.agregarPlato("Ensalada", 1000000, 15000);
+			unidad2F1.agregarPlato("Aderezo", 500000, 2000);
+			unidad3F1.agregarPlato("Balde nuggets", 3000000, 20000);
+			unidad3F1.agregarPlato("Gaseosa", 1000000, 8000);
+			unidad1F2.agregarPlato("Pancho", 1000000, 5000);
+			unidad1F2.agregarPlato("Sprite", 500000, 2000);
+			unidad2F2.agregarPlato("Sundae", 1000000, 7000);
+			unidad2F2.agregarPlato("Torta", 1000000, 10000);
+			unidad3F2.agregarPlato("Wrap de pollo", 2000000, 10000);
+			unidad3F2.agregarPlato("Mayonesa", 500000, 2000);
 			System.out.println("Platos agregados");
 			
 		} catch (Exception e) {
@@ -177,17 +196,38 @@ public class Test {
 		System.out.println("Caso de uso 6(Reporte de Recaudación):");
 		
 		System.out.println(sistema.obtenerRecaudacionFestival(festival1));
-		System.out.println(sistema.obtenerRecaudacionFestival(festival1, LocalDate.of(2026, 1, 1), LocalDate.of(2026, 1, 15)));
-		
+
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println("Caso de uso 7(Filtro de Personal por Edad):");
 		System.out.println("Filtro al personal entre las fechas "+ LocalDate.of(1985, 11, 3)+" y "+ LocalDate.of(1990, 11, 22)+
 		sistema.filtrarPersonalPorEdad(LocalDate.of(1985, 11, 3), LocalDate.of(1990, 11, 22)));
 		
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("Caso de uso 8(Calculo de Rentabilidad Neta): ");
+		System.out.println("La rentabilidad neta del puesto de venta '"+unidad3F2.getNombreComercial()+"' es de :"+sistema.calcularRentabilidadNeta(unidad3F2));
+		
+		System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("Caso de uso 9(Reporte de Recaudación entre fechas): ");
+
+		System.out.println(sistema.obtenerRecaudacionFestival(festival1, LocalDate.of(2026, 1, 15), LocalDate.of(2026, 2, 10)));
+		
+		
+		System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println("Caso de uso 10(Ranking de Unidades):");
 		
 		System.out.println(sistema.rankingUnidades());
+		
+		System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("Caso de uso 11(Plato Estrella): ");
+		System.out.println("El plato estrella es de la unidad de venta "+unidad1F2.getNombreComercial()+"' es : "+sistema.obtenerPlatoEstrella(unidad1F2).getNombre());
+		
+		System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("Caso de uso 12(Auditoría de Personal del Festival): ");
+		System.out.println("Se pasa la lista del personal que trabajo en el festival "+festival1.getNombre()+"' es : "+sistema.auditoriaFestivalPersonal(festival1));
+		
+		System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("Caso de uso 13( Unidades con Mayor Canon): ");
+		System.out.println("Se trae las 3 unidades que mas gastaron en canon'"+festival2.getNombre()+" los cuales son: "+sistema.unidadesConMayorCanon(festival2));
 		
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println("ELIMINACIONES CU1:");
@@ -205,5 +245,20 @@ public class Test {
 			System.out.println(e.getMessage());
 		}
 		
+		
+		try {
+			sistema.eliminarPersona(35678912);
+			System.out.println("SE ELIMINO A DNI: 35678912");
+			System.out.println("SE INTENTA ELIMINAR 12345678");
+			sistema.eliminarPersona(12345678);
+			System.out.println("SE INTENTA ELIMINAR 35678912 nuevamente");
+			sistema.eliminarPersona(35678912);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		System.out.println("FESTIVALES:\n");
+		sistema.eliminarFestival(festival2);
+		System.out.println("SE ELIMINO EL FESTIVAL Food Truck Fest");
 	}
 }

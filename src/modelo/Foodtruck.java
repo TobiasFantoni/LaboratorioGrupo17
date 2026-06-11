@@ -9,8 +9,8 @@ public class Foodtruck extends UnidadVenta {
 	
 	
 	//constructor
-	public Foodtruck(int id, String nombreComercial, Persona responsable, double superficie, List<Persona> lstStaff, String codigoUnico, String patente, boolean usaLuz) throws Exception {
-		super(id, nombreComercial, responsable, superficie, lstStaff, codigoUnico);
+	public Foodtruck(int id, String nombreComercial, Persona responsable, double superficie, String codigoUnico, String patente, boolean usaLuz) throws Exception {
+		super(id, nombreComercial, responsable, superficie, codigoUnico);
 		this.patente = patente;
 		this.usaLuz = usaLuz;
 	}

@@ -20,7 +20,10 @@ public class Plato {
 	//Metodos
 	
 	
-	
+	@Override
+	public String toString() {
+		return "Plato [id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", costo=" + costo + "]";
+	}
 	
 	//getters y setters
 	public int getId() {

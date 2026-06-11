@@ -425,7 +425,7 @@ public class Sistema {
 		return pedidosFiltrados;
 	}
 	
-	public List<Canon> canonTop3(Festival f) {
+	public List<Canon> UnidadesConMayorCanon(Festival f) {
 		
 		List<Canon> canonList = new ArrayList<Canon>();
 		List<Canon> top3 = new ArrayList<>();
@@ -463,8 +463,6 @@ public class Sistema {
 
 	    return top3;
 	}
-	
-	calcularCanonEntreFechas
 	
 	public List<Festival> getLstFestivales() {
 		return lstFestivales;

@@ -87,7 +87,7 @@ public class Test {
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println("Caso de uso 13(Unidades con Mayor Canon):");
 		
-		System.out.println(sistema.canonTop3(sistema.buscarFestivalPorDatos("Cosquín Rock", "Verano 2026",LocalDate.of(2026, 2, 14))));
+		System.out.println(sistema.UnidadesConMayorCanon(sistema.buscarFestivalPorDatos("Cosquín Rock", "Verano 2026",LocalDate.of(2026, 2, 14))));
 		
 
 //		sistema.buscarUnidadVentaPorCodigoUnico("PD001").agregarPlato("Hamburguesa Completa", 12000, 4500);

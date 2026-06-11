@@ -3,7 +3,7 @@ package modelo;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.ArrayList;
-//Hola DAni
+
 public class Sistema {
 	
 	private List<Festival> lstFestivales;
@@ -24,7 +24,6 @@ public class Sistema {
 		
 	}
 	
-	//HASDIUQHWIEQWEasdasdasd
 	//metodos
 	
 	public Festival buscarFestivalPorDatos(String nombre, String temporada, LocalDate fechaIni) {
@@ -218,6 +217,15 @@ public class Sistema {
 		return unidadVentaEncontrada;
 	}
 	
+	public boolean agregarPersonal(UnidadVenta unidadVenta, int dni){
+		Persona personaAux;
+	
+		personaAux = this.buscarPersonaPorDni(dni);
+		
+		return unidadVenta.getLstStaff().add(personaAux);
+		
+	}
+	
 	public boolean registrarPedido(LocalDate fecha, UnidadVenta unidadVenta, List<ItemPedido> lstItemsPedido, boolean estado) {
 		
 		int id = 1;
@@ -352,31 +360,22 @@ public class Sistema {
 		double gananciaPedidos = this.calcularGananciaNetaDePedidosPorUnidad(u);
 		
 		
-		return totalSueldos-gananciaPedidos-u.calcularCanon();
+		return gananciaPedidos-totalSueldos-u.calcularCanon();
 		
 	}
-	
-	
-	/*
-	 * public double calcularRentabilidadNetaEntreFechas(UnidadVenta u,LocalDate
-	 * desde, LocalDate hasta) {
-	 * 
-	 * List<Pedido> pedidos =
-	 * this.filtrarPedidosEntreFechas(this.filtrarPedidosPorUnidad(u), desde,
-	 * hasta); double totalSueldos = 0; double gananciaPedidos = 0;
-	 * 
-	 * 
-	 * for(Pedido p : pedidos) { gananciaPedidos += p.calcularGananciaNeta(); }
-	 * 
-	 * }
-	 * 
-	 * public Festival buscarFestivalId(int id) { Festival f=null; int i=0;
-	 * while(i<lstFestivales.size() && f==null) {
-	 * if(this.lstFestivales.get(i).getId()==id){ f=this.getLstFestivales().get(i);
-	 * } i++; } return f; }
-	 */
-	  
-	  
+
+	public Festival buscarFestivalId(int id) {
+		Festival f = null;
+		int i = 0;
+		while (i < lstFestivales.size() && f == null) {
+			if (this.lstFestivales.get(i).getId() == id) {
+				f = this.getLstFestivales().get(i);
+			}
+			i++;
+		}
+		return f;
+	}
+	 
 
 	    // Plato Estrella: Dado una unidad, devolver el objeto Plato que registró mayor 
 	    //cantidad de Pedidos en un festival particular. 
@@ -464,6 +463,8 @@ public class Sistema {
 
 	    return top3;
 	}
+	
+	calcularCanonEntreFechas
 	
 	public List<Festival> getLstFestivales() {
 		return lstFestivales;

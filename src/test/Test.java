@@ -79,11 +79,17 @@ public class Test {
 		System.out.println("Caso de uso 7(Filtro de Personal por Edad):");
 		System.out.println("Filtro al personal entre las fechas "+ LocalDate.of(1985, 11, 3)+" y "+ LocalDate.of(1990, 11, 22)+sistema.filtrarPersonalPorEdad(LocalDate.of(1985, 11, 3), LocalDate.of(1990, 11, 22)));
 		
+		System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println("Caso de uso 10(Ranking de Unidades):");
 		
-		sistema.rankingUnidades(sistema.buscarFestivalPorDatos("Food Truck Fest", "Primavera 2026", LocalDate.of(2026, 9, 18)));
+		System.out.println(sistema.rankingUnidades(sistema.buscarFestivalPorDatos("Cosquín Rock", "Verano 2026", LocalDate.of(2026, 2, 14))));
 		
-//		
+		System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("Caso de uso 13(Unidades con Mayor Canon):");
+		
+		System.out.println(sistema.canonTop3(sistema.buscarFestivalPorDatos("Cosquín Rock", "Verano 2026",LocalDate.of(2026, 2, 14))));
+		
+
 //		sistema.buscarUnidadVentaPorCodigoUnico("PD001").agregarPlato("Hamburguesa Completa", 12000, 4500);
 //		sistema.buscarUnidadVentaPorCodigoUnico("PD001").agregarPlato("Pizza Muzzarella", 15000, 6000);
 //		sistema.buscarUnidadVentaPorCodigoUnico("PD001").agregarPlato("Lomito Completo", 18000, 7500);

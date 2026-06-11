@@ -12,7 +12,8 @@ public abstract class UnidadVenta {
 	protected List<Plato> lstPlatos;
 	protected String codigoUnico;
 
-	public UnidadVenta(int id, String nombreComercial, Persona responsable, double superficie, List<Persona> lstStaff, String codigoUnico) throws Exception {
+	public UnidadVenta(int id, String nombreComercial, Persona responsable, double superficie, List<Persona> lstStaff, 
+			String codigoUnico) throws Exception {
 		this.id = id;
 		this.nombreComercial = nombreComercial;
 		this.responsable = responsable;

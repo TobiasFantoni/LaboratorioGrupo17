@@ -74,6 +74,7 @@ public class Sistema {
 	public boolean agregarUnidadVentaParaFestival(Festival f, UnidadVenta u) throws Exception {
 		
 		if(buscarUnidadDeVentaEnFestival(u.getCodigoUnico(), f) == true)throw new Exception("La unidad ya existe en el festival");
+
 		
 		return f.getLstUnidadVentas().add(u);
 	}
@@ -356,17 +357,61 @@ public class Sistema {
 	}
 	
 	
-	  public double calcularRentabilidadNetaEntreFechas(UnidadVenta u,LocalDate desde, LocalDate hasta) {
+	/*
+	 * public double calcularRentabilidadNetaEntreFechas(UnidadVenta u,LocalDate
+	 * desde, LocalDate hasta) {
+	 * 
+	 * List<Pedido> pedidos =
+	 * this.filtrarPedidosEntreFechas(this.filtrarPedidosPorUnidad(u), desde,
+	 * hasta); double totalSueldos = 0; double gananciaPedidos = 0;
+	 * 
+	 * 
+	 * for(Pedido p : pedidos) { gananciaPedidos += p.calcularGananciaNeta(); }
+	 * 
+	 * }
+	 * 
+	 * public Festival buscarFestivalId(int id) { Festival f=null; int i=0;
+	 * while(i<lstFestivales.size() && f==null) {
+	 * if(this.lstFestivales.get(i).getId()==id){ f=this.getLstFestivales().get(i);
+	 * } i++; } return f; }
+	 */
 	  
-	  List<Pedido> pedidos =
-	  this.filtrarPedidosEntreFechas(this.filtrarPedidosPorUnidad(u), desde,
-	  hasta); double totalSueldos = 0; double gananciaPedidos = 0;
 	  
-	  
-	  for(Pedido p : pedidos) { gananciaPedidos += p.calcularGananciaNeta(); }
-	  
-	  }
-	 
+
+	    // Plato Estrella: Dado una unidad, devolver el objeto Plato que registró mayor 
+	    //cantidad de Pedidos en un festival particular. 
+
+	    public Plato obtenerPlatoEstrella(UnidadVenta u) {
+	        Plato platoEstrella=null;
+	        int mayorCantidad=0;
+
+	        for (Pedido p : this.filtrarPedidosPorUnidad(u)) {
+
+
+	                for(ItemPedido item : p.getLstItemsPedido()) {
+	                    if(item.getCantidad() > mayorCantidad) {
+
+	                        mayorCantidad = item.getCantidad();
+	                        platoEstrella = item.getPlato();
+	                }
+	            }
+	        }
+
+	        return platoEstrella;
+	    }
+
+
+	    public List<Persona> auditoriaFestivalPersonal(Festival f){
+	        List<Persona> autoria=new ArrayList<Persona>();
+
+	        for (UnidadVenta u: f.getLstUnidadVentas()) {
+	            for (Persona p : u.getLstStaff()) {
+	                autoria.add(p);
+	            }
+	        }
+	        return autoria;
+
+	    } 
 	
 	private List<Pedido> filtrarPedidosPorUnidad(UnidadVenta u) {
 		

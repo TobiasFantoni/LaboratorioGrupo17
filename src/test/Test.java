@@ -92,6 +92,7 @@ public class Test {
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println("Caso de uso 5:");
 		
+		
 		try {
 			System.out.println("Agregando platos a las unidades de venta:");
 			unidad1F1.agregarPlato("Hamburguesa", 1000000, 5000);
@@ -144,7 +145,7 @@ public class Test {
 			detallePedido1U3F2.add(new ItemPedido(unidad3F2.buscarPlatoPorNombre("Wrap de pollo"), 2));
 			detallePedido2U3F2.add(new ItemPedido(unidad3F2.buscarPlatoPorNombre("Mayonesa"), 3));
 			
-			System.out.println("REGISTRANDO PEDIDOS..");
+			System.out.println("REGISTRANDO PEDIDOS.. ");
 			
 			sistema.registrarPedido("Cosquín Rock", "Verano", LocalDate.of(2026, 2, 14), "PD00000001", detallePedido1U1F1);
 			sistema.registrarPedido("Cosquín Rock", "Verano", LocalDate.of(2026, 2, 14), "PD00000001", detallePedido2U1F1);
@@ -190,7 +191,7 @@ public class Test {
 		
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println("ELIMINACIONES CU1:");
-		System.out.println("PERSONAS:\n");
+		System.out.println("PERSONAS:\n (TOBIAS)");
 		System.out.println("ELIMINAMOS A LA PERSONA CON DNI: 35678912 (EXISTE) y 12345678 (NO EXISTE)");
 		
 		try {

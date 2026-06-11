@@ -11,8 +11,8 @@ public class PuestoDesarmable extends UnidadVenta{
 	
 	//constructor
 	public PuestoDesarmable(int id, String nombreComercial, Persona responsable, double superficie,
-			List<Persona> lstStaff, List<Plato> lstPlatos, String codigoUnico, int cantidad, int tiempoMontaje) {
-		super(id, nombreComercial, responsable, superficie, lstStaff, lstPlatos, codigoUnico);
+			List<Persona> lstStaff, String codigoUnico, int cantidad, int tiempoMontaje) throws Exception {
+		super(id, nombreComercial, responsable, superficie, lstStaff, codigoUnico);
 		this.cantidad = cantidad;
 		this.tiempoMontaje = tiempoMontaje;
 	}
@@ -31,7 +31,19 @@ public class PuestoDesarmable extends UnidadVenta{
 		this.tiempoMontaje = tiempoMontaje;
 	}
 	
-	
+	public double calcularCanon(){
+		
+		double canon = 0;
+		
+		canon = (superficie * 500) - (this.tiempoMontaje * 10);
+			
+		return canon;
+	}
+
+	@Override
+	public String toString() {
+		return super.toString()+ "PuestoDesarmable [cantidad=" + cantidad + ", tiempoMontaje=" + tiempoMontaje + "]";
+	}
 	
 	
 }

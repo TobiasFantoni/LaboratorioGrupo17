@@ -5,12 +5,12 @@ import java.util.List;
 
 public class ReporteVenta {
 	private double recaudacionTotal;
-	private UnidadVenta rankingUnidad;
+	private UnidadVenta unidad;
 	
-	public ReporteVenta(double recaudacionTotal, UnidadVenta rankingUnidad) {
+	public ReporteVenta(double recaudacionTotal, UnidadVenta unidad) {
 		super();
 		this.recaudacionTotal = recaudacionTotal;
-		this.rankingUnidad = rankingUnidad;
+		this.unidad = unidad;
 	}
 
 	public double getRecaudacionTotal() {
@@ -22,16 +22,16 @@ public class ReporteVenta {
 	}
 
 	public UnidadVenta getRankingUnidad() {
-		return rankingUnidad;
+		return unidad;
 	}
 
-	public void setRankingUnidad(UnidadVenta rankingUnidad) {
-		this.rankingUnidad = rankingUnidad;
+	public void setUnidad(UnidadVenta unidad) {
+		this.unidad = unidad;
 	}
 
 	@Override
 	public String toString() {
-		return "ReporteVenta [recaudacionTotal=" + recaudacionTotal + ", rankingUnidad=" + rankingUnidad + "]";
+		return "\n\nUNIDAD: "+this.unidad.getNombreComercial()+"\nCODIGO: " +this.unidad.getCodigoUnico()+ "\nRecaudacion total: "+this.recaudacionTotal;
 	}
 	
 	

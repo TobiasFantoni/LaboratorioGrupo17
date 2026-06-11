@@ -10,9 +10,9 @@ public class Sistema {
 	private List<UnidadVenta> lstUnidadesVenta;
 	private List<Persona> lstPersonalGlobal;
 	private List<Pedido> lstPedidos;
-	private List<ReporteVenta> lstReportes;
+
 	
-	
+
 	//Constructor
 	public Sistema() {
 		
@@ -20,11 +20,37 @@ public class Sistema {
 		this.lstUnidadesVenta = new ArrayList<UnidadVenta>();
 		this.lstPersonalGlobal = new ArrayList<Persona>();
 		this.lstPedidos = new ArrayList<Pedido>();
-		this.lstReportes = new ArrayList<ReporteVenta>();
-		
+
 	}
 	
 	//metodos
+	
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+
+	//DANIEL
+	public boolean agregarFestival(String nombre, String temporada, double costeSuperficie, LocalDate fechaIni,
+			LocalDate fechaFin) throws Exception {
+		
+		if (fechaFin.isBefore(fechaIni)) {
+			throw new Exception("La fecha de fin no puede ser anterior a la fecha de inicio");
+		}
+		else if (this.buscarFestivalPorDatos(nombre, temporada, fechaIni) != null) {
+			throw new Exception("Ya existe un festival '" + nombre + "' para la temporada '" + temporada + "' en la fecha: " + fechaIni);
+		}
+		
+		int id = 1;
+		
+		if (!this.lstFestivales.isEmpty()) {
+			id = this.lstFestivales.getLast().getId() + 1;		
+		}
+		
+		Festival nuevoFestival = new Festival(id, nombre, temporada, costeSuperficie, fechaIni, fechaFin);
+		return this.lstFestivales.add(nuevoFestival);
+	}
 	
 	public Festival buscarFestivalPorDatos(String nombre, String temporada, LocalDate fechaIni) {
 		Festival festivalEncontrado = null;
@@ -46,48 +72,19 @@ public class Sistema {
 		return festivalEncontrado;
 	}
 	
-	public boolean agregarFestival(String nombre, String temporada, double costeSuperficie, LocalDate fechaIni,
-			LocalDate fechaFin) throws Exception {
-		
-		if (fechaFin.isBefore(fechaIni)) {
-			throw new Exception("La fecha de fin no puede ser anterior a la fecha de inicio");
-		}
-		else if (this.buscarFestivalPorDatos(nombre, temporada, fechaIni) != null) {
-			throw new Exception("Ya existe un festival '" + nombre + "' para la temporada '" + temporada + "' en la fecha: " + fechaIni);
-		}
-		
-		int id = 1;
-		
-		if (!this.lstFestivales.isEmpty()) {
-			id = this.lstFestivales.getLast().getId() + 1;		
-		}
-		
-		Festival nuevoFestival = new Festival(id, nombre, temporada, costeSuperficie, fechaIni, fechaFin);
-		return this.lstFestivales.add(nuevoFestival);
-	}
-	
 	public boolean eliminarFestival(Festival festival) {
 		return this.lstFestivales.remove(festival);
 	}
 	
-	public boolean agregarUnidadVentaParaFestival(Festival f, UnidadVenta u) throws Exception {
-		
-		if(buscarUnidadDeVentaEnFestival(u.getCodigoUnico(), f) == true)throw new Exception("La unidad ya existe en el festival");
-
-		
-		return f.getLstUnidadVentas().add(u);
-	}
 	
-	public boolean buscarUnidadDeVentaEnFestival(String codigoUnico,Festival f) throws Exception {
-		boolean repetido = false;
-		
-		for(int i = 0; i < f.getLstUnidadVentas().size(); i++) {
-			if(f.getLstUnidadVentas().get(i).getCodigoUnico().equals(codigoUnico)) {
-				repetido = true;
-			}
-		}
-		return repetido;
-	}
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	
+	//TOBIAS
+	
 	
 	public Persona buscarPersonaPorDni(long dni) {
 		
@@ -129,14 +126,36 @@ public class Sistema {
 		return personas;
 	}
 	
-	public boolean agregarCocinero(long dni, String nombre, String apellido, LocalDate fechaNacimiento, float sueldoBase, String especialidad, int plusCategoria) throws Exception {
-		
+	private boolean validarEdad(LocalDate fechaNacimiento) {
+		boolean valido = true;
 		LocalDate edadLimite = LocalDate.now().minusYears(18);
+		
+		if(fechaNacimiento.isAfter(edadLimite)) {
+			valido = false;
+		}
+		
+		return valido;
+	}
+	
+	private boolean validarAgregadoDePersonal(long dni, LocalDate fechaNacimiento) throws Exception {
+		
+		boolean valido = true;
 		
 		if(this.buscarPersonaPorDni(dni) != null) {
 			throw new Exception("Ya existe una persona con el DNI: "+ dni);
-		}else if(fechaNacimiento.isAfter(edadLimite)){
+		}else if(!validarEdad(fechaNacimiento)){
 			throw new Exception("La persona que intenta agregar, es menor de 18 años.");
+		}
+		
+		return valido;
+	}
+	
+	public boolean agregarCocinero(long dni, String nombre, String apellido, LocalDate fechaNacimiento, float sueldoBase, String especialidad, int plusCategoria) {
+		
+		try {
+			this.validarAgregadoDePersonal(dni, fechaNacimiento);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 		
 		Cocinero nuevoCocinero = new Cocinero(dni, nombre, apellido, fechaNacimiento, sueldoBase, especialidad ,plusCategoria);
@@ -145,14 +164,44 @@ public class Sistema {
 		return this.lstPersonalGlobal.add(nuevoCocinero);
 	} 
 	
+	//SOBRECARGA PARA AGREGAR FECHA DE INGRESO MANUAL
+	public boolean agregarCocinero(long dni, String nombre, String apellido, LocalDate fechaNacimiento, LocalDate ingreso,float sueldoBase, String especialidad, int plusCategoria) throws Exception {
+		
+		try {
+			this.validarAgregadoDePersonal(dni, fechaNacimiento);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		Cocinero nuevoCocinero = new Cocinero(dni, nombre, apellido, fechaNacimiento, ingreso, sueldoBase, especialidad ,plusCategoria);
+		
+		
+		return this.lstPersonalGlobal.add(nuevoCocinero);
+	} 
+	
+	
+	
+	public boolean agregarCajero(long dni, String nombre, String apellido, LocalDate fechaNacimiento, LocalDate ingreso,float sueldoBase, String turno) throws Exception {
+		
+		try {
+			this.validarAgregadoDePersonal(dni, fechaNacimiento);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		Cajero nuevoCajero = new Cajero(dni, nombre, apellido, fechaNacimiento, ingreso ,sueldoBase, turno);
+		
+		
+		return this.lstPersonalGlobal.add(nuevoCajero);
+	}
+	
+	//SOBRECARGA PARA AGREGAR FECHA DE INGRESO MANUAL
 	public boolean agregarCajero(long dni, String nombre, String apellido, LocalDate fechaNacimiento, float sueldoBase, String turno) throws Exception {
 		
-		LocalDate edadLimite = LocalDate.now().minusYears(18);
-		
-		if(this.buscarPersonaPorDni(dni) != null) {
-			throw new Exception("Ya existe una persona con el DNI: "+ dni);
-		}else if(fechaNacimiento.isAfter(edadLimite)){
-			throw new Exception("La persona que intenta agregar, es menor de 18 años.");
+		try {
+			this.validarAgregadoDePersonal(dni, fechaNacimiento);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 		
 		Cajero nuevoCajero = new Cajero(dni, nombre, apellido, fechaNacimiento, sueldoBase, turno);
@@ -161,140 +210,35 @@ public class Sistema {
 		return this.lstPersonalGlobal.add(nuevoCajero);
 	}
 	
-	public boolean eliminarPersona(long dni) {
+	public boolean eliminarPersona(long dni) throws Exception{
+		if(this.buscarPersonaPorDni(dni)==null)throw new Exception("La persona con DNI: "+dni+" NO EXISTE.");
 		return this.lstPersonalGlobal.remove(buscarPersonaPorDni(dni));
 	}
 	
-	public boolean agregarUnidadVentaPuestoDesmotable(String nombreComercial, Persona persona, double superficie, List<Persona> staff, String codigoUnico, int cantidad, int tiempoMontaje) throws Exception {
-		if(buscarUnidadVentaPorCodigoUnico(codigoUnico) != null)throw new Exception("La unidad ya existe");
+	public double calcularTotalDeImporteDeSueldosPorUnidadVenta(UnidadVenta u) {
 		
-		int id = 1;
-		
-		if(this.lstUnidadesVenta.isEmpty() != true) {
-			id = this.lstUnidadesVenta.getLast().getId() + 1;
-		}
-		
-	
-		return this.lstUnidadesVenta.add(new PuestoDesarmable(id,nombreComercial,persona,superficie,staff,codigoUnico, cantidad, tiempoMontaje));
-	}
-	
-	public boolean agregarUnidadVentaFoodTruck(String nombreComercial, Persona persona, double superficie, List<Persona> staff, String codigoUnico,  String patente, boolean usaLuz) throws Exception {
-		if(buscarUnidadVentaPorCodigoUnico(codigoUnico) != null)throw new Exception("La unidad ya existe");
-		
-		int id = 1;
-		
-		if(this.lstUnidadesVenta.isEmpty() != true) {
-			id = this.lstUnidadesVenta.getLast().getId() + 1;
-		}
-		
-	
-		return this.lstUnidadesVenta.add(new Foodtruck(id,nombreComercial,persona,superficie,staff,codigoUnico, patente, usaLuz));
-	}
-	
-	public boolean eliminarUnidadVenta(String codigoUnico) throws Exception{
-		if(buscarUnidadVentaPorCodigoUnico(codigoUnico) == null)throw new Exception("No se encontro la Unidadad de Venta");
-		
-		
-		return this.lstUnidadesVenta.remove(buscarUnidadVentaPorCodigoUnico(codigoUnico));
-	}
-	
-
-	
-	public UnidadVenta buscarUnidadVentaPorCodigoUnico(String codigoUnico) {
-		
-		UnidadVenta unidadVentaEncontrada = null;
-		boolean encontrado = false;
-		int contador = 0;
-		
-		while(contador < this.lstUnidadesVenta.size() && encontrado == false) {
-			if(lstUnidadesVenta.get(contador).getCodigoUnico().equals(codigoUnico)) {
-				unidadVentaEncontrada = this.lstUnidadesVenta.get(contador);
-				encontrado = true;
+		double total = 0;
+			
+			for(Persona p : u.getLstStaff()) {
+				total += p.calcularSueldo();
 			}
-			contador++;
-		}
 		
-		return unidadVentaEncontrada;
+		return total;
 	}
 	
-	public boolean agregarPersonal(UnidadVenta unidadVenta, int dni){
-		Persona personaAux;
 	
-		personaAux = this.buscarPersonaPorDni(dni);
+	public double calcularTotalDeImporteDeSueldosPorFestival(Festival f) {
 		
-		return unidadVenta.getLstStaff().add(personaAux);
+		double total = 0;
 		
-	}
-	
-	public boolean registrarPedido(LocalDate fecha, UnidadVenta unidadVenta, List<ItemPedido> lstItemsPedido, boolean estado) {
-		
-		int id = 1;
-		
-		if(this.lstUnidadesVenta.isEmpty() != true) {
-			id = this.lstUnidadesVenta.getLast().getId() + 1;
+		for(UnidadVenta u : f.getLstUnidadVentas()) {
+			
+			total += this.calcularTotalDeImporteDeSueldosPorUnidadVenta(u);
+			
 		}
 		
-		return this.lstPedidos.add(new Pedido(id, fecha, unidadVenta, lstItemsPedido, estado));
+		return total;
 	}
-	
-	public Pedido buscarPedidoPorId(int id) {
-		
-		Pedido pedidoEncontrado = null;
-		boolean encontrado = false;
-		int contador = 0;
-		
-		while(contador < this.lstPedidos.size() && encontrado == false) {
-			if(lstPedidos.get(contador).equals(id)) {
-				pedidoEncontrado = this.lstPedidos.get(contador);
-				encontrado = true;
-			}
-			contador++;
-		}
-		
-		return pedidoEncontrado;
-	}
-	  	
-	public List<ReporteVenta> obtenerRecaudacionFestival(Festival festival){
-		
-		
-	    List<ReporteVenta> reporte = new ArrayList<>();
-	    
-	    for(int i = 0; i < festival.getLstUnidadVentas().size(); i++) {
-	    	 double recaudacionFestival = 0;
-	    	 recaudacionFestival = recaudacionFestival + this.calcularRentabilidadNeta(festival.getLstUnidadVentas().get(i));
-	    	 reporte.add(new ReporteVenta(recaudacionFestival, festival.getLstUnidadVentas().get(i)));
-	    }
-	    
-	   
-
-	    return reporte;
-	}
-	
-	 public List<ReporteVenta> rankingUnidades(Festival festival) {
-
-		    List<ReporteVenta> ranking = new ArrayList<>();
-		    
-		    ranking = this.obtenerRecaudacionFestival(festival);
-	
-		    ranking = this.ordenarPorUnidadesVendidas(ranking);
-		    
-		    return ranking;
-		}
-	 
-	 private List<ReporteVenta> ordenarPorUnidadesVendidas(List<ReporteVenta> reporteVentas) {
-
-		    for (int i = 0; i < reporteVentas.size() - 1; i++) {
-
-		        for (int j = 0; j < reporteVentas.size()- 1 - i; j++) {
-		            if (reporteVentas.get(j).getRecaudacionTotal() < reporteVentas.get(j+1).getRecaudacionTotal()) {
-		            	ReporteVenta aux = reporteVentas.get(j);
-		            	reporteVentas.set(j, reporteVentas.get(j + 1));
-		            	reporteVentas.set(j + 1, aux);
-		            }
-		        }
-		    }
-		    return reporteVentas;
-		}
 	
 	public List<Canon> canonsPorFestival(Festival f) {
 		
@@ -309,15 +253,25 @@ public class Sistema {
 		return canons;
 	}
 	
+	private List<Pedido> filtrarPedidosPorUnidad(UnidadVenta u) {
+		
+		List<Pedido> pedidosFiltrados = new ArrayList<Pedido>();
+		
+		for(Pedido p : this.lstPedidos) {
+			if(p.getUnidadVenta().equals(u)) {
+				pedidosFiltrados.add(p);
+			}
+		}
+		
+		return pedidosFiltrados;
+	}
 	
 	
 	private double calcularGananciaNetaDePedidosPorUnidad(UnidadVenta u) {
 		
 		double gananciaPedidos = 0;
 		
-		//Este for que hace?
 		for(Pedido p : this.filtrarPedidosPorUnidad(u)) {
-		
 				gananciaPedidos += p.calcularGananciaNeta();
 		}
 		
@@ -353,79 +307,183 @@ public class Sistema {
 		
 	}
 	
-	
 	public double calcularRentabilidadNeta(UnidadVenta u) {
 		
 		double totalSueldos = this.calcularSueldosPorUnidad(u);
 		double gananciaPedidos = this.calcularGananciaNetaDePedidosPorUnidad(u);
 		
-		
-		return gananciaPedidos-totalSueldos-u.calcularCanon();
+		double gananciaMenosSueldos = gananciaPedidos-totalSueldos;
+		double gananciaMenosCanon = gananciaMenosSueldos - u.calcularCanon();
+
+		return gananciaMenosCanon;
 		
 	}
+	
+	public boolean registrarPedido(String nombreFestival ,String temporadaFestival, LocalDate fechaIniFestival, String codigoUnidad, List<ItemPedido> detalle) throws Exception{
 
-	public Festival buscarFestivalId(int id) {
-		Festival f = null;
-		int i = 0;
-		while (i < lstFestivales.size() && f == null) {
-			if (this.lstFestivales.get(i).getId() == id) {
-				f = this.getLstFestivales().get(i);
-			}
-			i++;
-		}
-		return f;
-	}
-	 
-
-	    // Plato Estrella: Dado una unidad, devolver el objeto Plato que registró mayor 
-	    //cantidad de Pedidos en un festival particular. 
-
-	    public Plato obtenerPlatoEstrella(UnidadVenta u) {
-	        Plato platoEstrella=null;
-	        int mayorCantidad=0;
-
-	        for (Pedido p : this.filtrarPedidosPorUnidad(u)) {
-
-
-	                for(ItemPedido item : p.getLstItemsPedido()) {
-	                    if(item.getCantidad() > mayorCantidad) {
-
-	                        mayorCantidad = item.getCantidad();
-	                        platoEstrella = item.getPlato();
-	                }
-	            }
-	        }
-
-	        return platoEstrella;
+		Festival festival = this.buscarFestivalPorDatos(nombreFestival, temporadaFestival, fechaIniFestival);
+		UnidadVenta unidad = this.buscarUnidadVentaPorCodigoUnico(codigoUnidad);
+		
+	    if ( unidad == null ||  festival == null) {
+	        throw new Exception("El festival o unidad de venta no existen");
 	    }
 
+	    if (!festival.getLstUnidadVentas().contains(unidad)) {
+	        throw new Exception("La unidad de venta no existe en el festival");
+	    }
 
-	    public List<Persona> auditoriaFestivalPersonal(Festival f){
-	        List<Persona> autoria=new ArrayList<Persona>();
-
-	        for (UnidadVenta u: f.getLstUnidadVentas()) {
-	            for (Persona p : u.getLstStaff()) {
-	                autoria.add(p);
-	            }
+	    for (ItemPedido item : detalle) {
+	        if (!unidad.getLstPlatos().contains(item.getPlato())) {
+	            throw new Exception("El plato "+item.getPlato().getNombre()+" no existe en la unidad de venta");
 	        }
-	        return autoria;
+	    }
+	    
+	    int nuevoIdPedido = 1;
+	    
+	    if(!this.lstPedidos.isEmpty()) {
+	    	nuevoIdPedido = this.lstPedidos.getLast().getId()+1;
+	    }
 
-	    } 
+	    Pedido pedido = new Pedido(nuevoIdPedido, LocalDate.now(), unidad, festival, detalle, false);
+
+	    
+	    return this.lstPedidos.add(pedido);
+	}
 	
-	private List<Pedido> filtrarPedidosPorUnidad(UnidadVenta u) {
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	
+	//MAXIMILIANO
+	
+	 public List<ReporteVenta> rankingUnidades() {
+
+		    List<ReporteVenta> ranking = new ArrayList<>();
+		    
+		    for(UnidadVenta u : this.lstUnidadesVenta) {
+		    	ReporteVenta reporte = new ReporteVenta(this.calcularRentabilidadNeta(u), u);
+		    	ranking.add(reporte);
+		    }
+		    
+		    return this.ordenarPorUnidadesVendidas(ranking);
+		}
+	 
+	 private List<ReporteVenta> ordenarPorUnidadesVendidas(List<ReporteVenta> reporteVentas) {
+
+		    for (int i = 0; i < reporteVentas.size() - 1; i++) {
+
+		        for (int j = 0; j < reporteVentas.size()- 1 - i; j++) {
+		            if (reporteVentas.get(j).getRecaudacionTotal() < reporteVentas.get(j+1).getRecaudacionTotal()) {
+		            	ReporteVenta aux = reporteVentas.get(j);
+		            	reporteVentas.set(j, reporteVentas.get(j + 1));
+		            	reporteVentas.set(j + 1, aux);
+		            }
+		        }
+		    }
+		    return reporteVentas;
+		}
+	
+	public List<ReporteVenta> obtenerRecaudacionFestival(Festival festival){
 		
-		List<Pedido> pedidosFiltrados = new ArrayList<Pedido>();
 		
-		for(Pedido p : this.lstPedidos) {
-			if(p.getUnidadVenta().equals(u)) {
-				pedidosFiltrados.add(p);
+	    List<ReporteVenta> reporte = new ArrayList<>();
+	    
+	    for(int i = 0; i < festival.getLstUnidadVentas().size(); i++) {
+	    	 double recaudacionFestival = 0;
+	    	 recaudacionFestival = recaudacionFestival + this.calcularRentabilidadNeta(festival.getLstUnidadVentas().get(i));
+	    	 reporte.add(new ReporteVenta(recaudacionFestival, festival.getLstUnidadVentas().get(i)));
+	    }
+	    
+	   
+
+	    return reporte;
+	}
+	
+		
+	public UnidadVenta buscarUnidadVentaPorCodigoUnico(String codigoUnico) {
+		
+		UnidadVenta unidadVentaEncontrada = null;
+		boolean encontrado = false;
+		int contador = 0;
+		
+		while(contador < this.lstUnidadesVenta.size() && encontrado == false) {
+			if(lstUnidadesVenta.get(contador).getCodigoUnico().equals(codigoUnico)) {
+				unidadVentaEncontrada = this.lstUnidadesVenta.get(contador);
+				encontrado = true;
+			}
+			contador++;
+		}
+		
+		return unidadVentaEncontrada;
+	}
+	
+	public boolean agregarUnidadVentaPuestoDesmotable(String nombreComercial, Persona persona, double superficie, String codigoUnico, int cantidad, int tiempoMontaje) throws Exception {
+		if(buscarUnidadVentaPorCodigoUnico(codigoUnico) != null)throw new Exception("La unidad ya existe");
+		
+		int id = 1;
+		
+		if(this.lstUnidadesVenta.isEmpty() != true) {
+			id = this.lstUnidadesVenta.getLast().getId() + 1;
+		}
+		
+	
+		return this.lstUnidadesVenta.add(new PuestoDesarmable(id,nombreComercial,persona,superficie,codigoUnico, cantidad, tiempoMontaje));
+	}
+	
+	public boolean agregarUnidadVentaFoodTruck(String nombreComercial, Persona persona, double superficie, String codigoUnico,  String patente, boolean usaLuz) throws Exception {
+		if(buscarUnidadVentaPorCodigoUnico(codigoUnico) != null)throw new Exception("La unidad ya existe");
+		
+		int id = 1;
+		
+		if(this.lstUnidadesVenta.isEmpty() != true) {
+			id = this.lstUnidadesVenta.getLast().getId() + 1;
+		}
+		
+	
+		return this.lstUnidadesVenta.add(new Foodtruck(id,nombreComercial,persona,superficie,codigoUnico, patente, usaLuz));
+	}
+	
+	public boolean buscarUnidadDeVentaEnFestival(String codigoUnico,Festival f) throws Exception {
+		boolean repetido = false;
+		
+		for(int i = 0; i < f.getLstUnidadVentas().size(); i++) {
+			if(f.getLstUnidadVentas().get(i).getCodigoUnico().equals(codigoUnico)) {
+				repetido = true;
+			}
+		}
+		return repetido;
+	}
+	
+	public boolean agregarUnidadVentaParaFestival(Festival f, UnidadVenta u) throws Exception {
+		
+		if(buscarUnidadDeVentaEnFestival(u.getCodigoUnico(), f) == true)throw new Exception("La unidad ya existe en el festival");
+
+		
+		return f.getLstUnidadVentas().add(u);
+	}
+	
+	public boolean agregarPersonal(UnidadVenta unidadVenta, int dni)throws Exception{
+		boolean encontrado = false;
+		
+		for(int i = 0; i < unidadVenta.getLstStaff().size(); i++) {
+			if(unidadVenta.getLstStaff().get(i).getDni() == dni) {
+				encontrado = true;
 			}
 		}
 		
-		return pedidosFiltrados;
+		if(encontrado == true)throw new Exception("El personal ya se encuentra en la unidad de venta");
+		
+		Persona personaAux;
+	
+		personaAux = this.buscarPersonaPorDni(dni);
+		
+		return unidadVenta.getLstStaff().add(personaAux);
+		
 	}
 	
-	public List<Canon> UnidadesConMayorCanon(Festival f) {
+	public List<Canon> unidadesConMayorCanon(Festival f) {
 		
 		List<Canon> canonList = new ArrayList<Canon>();
 		List<Canon> top3 = new ArrayList<>();
@@ -464,51 +522,60 @@ public class Sistema {
 	    return top3;
 	}
 	
-	public List<Festival> getLstFestivales() {
-		return lstFestivales;
-	}
+		//==================================================================================================================================================================
+		//==================================================================================================================================================================
+		//==================================================================================================================================================================
+		//==================================================================================================================================================================
+		//==================================================================================================================================================================
+		
+		//DIEGO
 
-	public void setLstFestivales(List<Festival> lstFestivales) {
-		this.lstFestivales = lstFestivales;
-	}
+    // Plato Estrella: Dado una unidad, devolver el objeto Plato que registró mayor 
+    //cantidad de Pedidos en un festival particular. 
 
-	public List<UnidadVenta> getLstUnidadesVenta() {
-		return lstUnidadesVenta;
-	}
+    public Plato obtenerPlatoEstrella(UnidadVenta u) {
+        Plato platoEstrella=null;
+        int mayorCantidad=0;
 
-	public void setLstUnidadesVenta(List<UnidadVenta> lstUnidadesVenta) {
-		this.lstUnidadesVenta = lstUnidadesVenta;
-	}
+        for (Pedido p : this.filtrarPedidosPorUnidad(u)) {
 
+
+                for(ItemPedido item : p.getLstItemsPedido()) {
+                    if(item.getCantidad() > mayorCantidad) {
+
+                        mayorCantidad = item.getCantidad();
+                        platoEstrella = item.getPlato();
+                }
+            }
+        }
+
+        return platoEstrella;
+    }
+
+
+    public List<Persona> auditoriaFestivalPersonal(Festival f){
+        List<Persona> autoria=new ArrayList<Persona>();
+
+        for (UnidadVenta u: f.getLstUnidadVentas()) {
+            for (Persona p : u.getLstStaff()) {
+                autoria.add(p);
+            }
+        }
+        return autoria;
+
+    }
+	
+	//getters y setters
 	public List<Persona> getLstPersonalGlobal() {
 		return lstPersonalGlobal;
 	}
-
-	public void setLstPersonalGlobal(List<Persona> lstPersonalGlobal) {
-		this.lstPersonalGlobal = lstPersonalGlobal;
+	
+	public List<Festival> getLstFestivales() {
+		return lstFestivales;
 	}
-
-	public List<Pedido> getLstPedidos() {
+	
+	public List<Pedido> getlstPedidos() {
 		return lstPedidos;
-	}
-
-	public void setLstPedidos(List<Pedido> lstPedidos) {
-		this.lstPedidos = lstPedidos;
-	}
-
-	public List<ReporteVenta> getLstReportes() {
-		return lstReportes;
-	}
-
-	public void setLstReportes(List<ReporteVenta> lstReportes) {
-		this.lstReportes = lstReportes;
-	}
-
-	@Override
-	public String toString() {
-		return "Sistema [lstFestivales=" + lstFestivales + ", lstUnidadesVenta=" + lstUnidadesVenta
-				+ ", lstPersonalGlobal=" + lstPersonalGlobal + ", lstPedidos=" + lstPedidos + ", lstReportes="
-				+ lstReportes + "]";
 	}
 	
 	

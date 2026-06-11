@@ -25,6 +25,16 @@ public class Festival {
 			this.fechaFin = fechaFin;
 			this.lstUnidadVentas = new ArrayList<UnidadVenta>();
 		}
+		
+		
+
+		@Override
+		public String toString() {
+			return "\n\nFestival: "+this.getNombre()+"\nTEMPORADA: "+this.temporada+"\nINICIA EL: "+this.getFechaIni()+"\nFINALIZA EL: "+this.getFechaFin();
+					
+		}
+
+
 
 		public int getId() {
 			return id;
@@ -82,21 +92,11 @@ public class Festival {
 			this.lstUnidadVentas = lstUnidadVentas;
 		}
 
-		@Override
-		public int hashCode() {
-			return Objects.hash(fechaFin, fechaIni, nombre);
-		}
 		
 		public boolean equals(Festival f) {
-			return this.nombre.equalsIgnoreCase(f.nombre) && this.temporada.equalsIgnoreCase(f.temporada) && this.fechaIni.isEqual(fechaIni);
+			return this.nombre.equals(f.nombre) && this.fechaIni.isEqual(fechaIni) && this.fechaFin.isEqual(fechaFin);
 		}
-
-		@Override
-		public String toString() {
-			return "\nFestival [id=" + id + ", nombre=" + nombre + ", temporada=" + temporada + ", costeSuperficie="
-					+ costeSuperficie + ", fechaIni=" + fechaIni + ", fechaFin=" + fechaFin + ", lstUnidadVentas="
-					+ lstUnidadVentas + "]";
-		}
+		
 		
 		
 }

@@ -8,16 +8,27 @@ public class Pedido {
 	private int id;
 	private LocalDate fecha;
 	private UnidadVenta unidadVenta;
+	private Festival festival;
 	private List<ItemPedido> lstItemsPedido;
-	private boolean terminado;
+	private boolean estado;
 	
 	//constructor
-	public Pedido(int id, LocalDate fecha, UnidadVenta unidadVenta, List<ItemPedido> lstItemsPedido, boolean terminado) {
+	public Pedido(int id, LocalDate fecha,UnidadVenta unidadVenta, Festival festival, List<ItemPedido> detalle,boolean estado) {
 		this.id = id;
 		this.fecha = fecha;
 		this.unidadVenta = unidadVenta;
-		this.lstItemsPedido = lstItemsPedido;
-		this.terminado = terminado;
+		this.festival = festival;
+		this.lstItemsPedido = detalle;
+		this.estado = estado;
+	}
+	
+	public boolean agregarItemPedido(Plato plato, int cant) {
+		
+		ItemPedido nuevoItem = null;
+		
+		nuevoItem = new ItemPedido(plato, cant);
+		
+		return this.lstItemsPedido.add(nuevoItem);
 	}
 	
 	public double calcularTotalPedido() {
@@ -50,12 +61,20 @@ public class Pedido {
 	}
 	
 	public double calcularGananciaNeta() {
-		
 		return this.calcularTotalPedido()-this.calcularCostoPedido();
 	}
 	
+	
+	
+	
 	//getters y setters
 	
+	@Override
+	public String toString() {
+		return "\n\nPEDIDO: "+this.getId()+"\nFECHA: "+this.getFecha().toString()+"\nFESTIVAL: "+this.getFestival().getNombre()+"\nUNIDAD: "
+	+this.getUnidadVenta().getCodigoUnico()+"\nDETALLE: "+this.getLstItemsPedido()+"\nTOTAL: "+this.calcularTotalPedido()+"\nCOSTO: "+this.calcularCostoPedido();
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -79,6 +98,15 @@ public class Pedido {
 	public void setUnidadVenta(UnidadVenta unidadVenta) {
 		this.unidadVenta = unidadVenta;
 	}
+	
+	
+	public Festival getFestival() {
+		return festival;
+	}
+
+	public void setFestival(Festival festival) {
+		this.festival = festival;
+	}
 
 	public List<ItemPedido> getLstItemsPedido() {
 		return lstItemsPedido;
@@ -88,12 +116,12 @@ public class Pedido {
 		this.lstItemsPedido = lstItemsPedido;
 	}
 
-	public boolean isTerminado() {
-		return terminado;
+	public boolean isEstado() {
+		return estado;
 	}
 
-	public void setTerminado(boolean terminado) {
-		this.terminado = terminado;
+	public void setEstado(boolean estado) {
+		this.estado = estado;
 	}
 	
 	

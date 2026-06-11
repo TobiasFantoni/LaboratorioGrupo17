@@ -1,7 +1,5 @@
 package modelo;
 
-import java.util.List;
-
 public class PuestoDesarmable extends UnidadVenta{
 	
 	private int cantidad;
@@ -11,8 +9,8 @@ public class PuestoDesarmable extends UnidadVenta{
 	
 	//constructor
 	public PuestoDesarmable(int id, String nombreComercial, Persona responsable, double superficie,
-			List<Persona> lstStaff, String codigoUnico, int cantidad, int tiempoMontaje) throws Exception {
-		super(id, nombreComercial, responsable, superficie, lstStaff, codigoUnico);
+			String codigoUnico, int cantidad, int tiempoMontaje) throws Exception {
+		super(id, nombreComercial, responsable, superficie, codigoUnico);
 		this.cantidad = cantidad;
 		this.tiempoMontaje = tiempoMontaje;
 	}

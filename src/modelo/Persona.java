@@ -21,6 +21,16 @@ public abstract class Persona {
 		this.sueldoBase = sueldoBase;
 	}
 	
+	public Persona(long dni, String nombre, String apellido, LocalDate fechaNacimiento,LocalDate ingreso,
+			float sueldoBase) {
+		this.dni = dni;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.fechaNacimiento = fechaNacimiento;
+		this.fechaIngreso = ingreso;
+		this.sueldoBase = sueldoBase;
+	}
+	
 	public long getDni() {
 		return dni;
 	}
@@ -63,13 +73,10 @@ public abstract class Persona {
 	public double calcularAntiguedad() {
 		long diasIngreso = this.fechaIngreso.toEpochDay();
         long diasActual = LocalDate.now().toEpochDay();
-        
+
         return (diasActual - diasIngreso) / 365;
 	}
-
-	@Override
-	public String toString() {
-		return "\nPersona [dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", fechaNacimiento="
-				+ fechaNacimiento + ", fechaIngreso=" + fechaIngreso + ", sueldoBase=" + sueldoBase + "]";
-	}
+	
+	
+	
 }

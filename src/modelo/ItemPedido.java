@@ -12,6 +12,15 @@ public class ItemPedido {
 		this.cantidad = cantidad;
 	}
 	
+	
+	
+	@Override
+	public String toString() {
+		return "Plato: " + plato.getNombre() + "|Cantidad:" + cantidad;
+	}
+
+
+
 	//getters y setters
 	public Plato getPlato() {
 		return plato;

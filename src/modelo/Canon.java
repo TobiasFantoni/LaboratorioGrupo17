@@ -11,11 +11,6 @@ public class Canon {
 		this.canon = canon;
 	}
 
-	@Override
-	public String toString() {
-		return "Canon [codigo=" + codigo + ", nombreComercial=" + nombreComercial + ", canon=" + canon + "]";
-	}
-
 	public String getCodigo() {
 		return codigo;
 	}
@@ -39,5 +34,11 @@ public class Canon {
 	public void setCanon(double canon) {
 		this.canon = canon;
 	}
+	
+	@Override
+	public String toString() {
+		return "\n\ncodigo=" + codigo + ", nombreComercial=" + nombreComercial + ", canon=" + canon;
+	}
+	
 	
 }

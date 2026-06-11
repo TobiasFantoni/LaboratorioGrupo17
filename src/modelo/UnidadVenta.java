@@ -12,13 +12,13 @@ public abstract class UnidadVenta {
 	protected List<Plato> lstPlatos;
 	protected String codigoUnico;
 
-	public UnidadVenta(int id, String nombreComercial, Persona responsable, double superficie, List<Persona> lstStaff, 
+	public UnidadVenta(int id, String nombreComercial, Persona responsable, double superficie, 
 			String codigoUnico) throws Exception {
 		this.id = id;
 		this.nombreComercial = nombreComercial;
 		this.responsable = responsable;
 		this.superficie = superficie;
-		this.lstStaff = lstStaff;
+		this.lstStaff = new ArrayList<Persona>();
 		this.lstPlatos = new ArrayList<Plato>();
 		this.setCodigoUnico(codigoUnico);
 	}
@@ -115,13 +115,13 @@ public abstract class UnidadVenta {
 		return this.lstPlatos.add(new Plato(id,nombre,precio,costo));
 	}
 	
+	
+	
 	public abstract double calcularCanon();
 
 	@Override
 	public String toString() {
-		return "\nUnidadVenta [id=" + id + ", nombreComercial=" + nombreComercial + ", responsable=" + responsable
-				+ ", superficie=" + superficie + ", lstStaff=" + lstStaff + ", lstPlatos=" + lstPlatos
-				+ ", codigoUnico=" + codigoUnico + "]";
+		return "\n\nUNIDAD: "+this.getNombreComercial()+"\nCODIGO: "+this.getCodigoUnico()+"\nSUPERFICIE: "+this.getSuperficie()+"\nRESPONSABLE: "+this.getResponsable()+"\nPERSONAL: "+this.getLstStaff();
 	}
 
 }

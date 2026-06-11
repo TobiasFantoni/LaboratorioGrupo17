@@ -25,6 +25,13 @@ public class Sistema {
 	
 	//metodos
 	
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+
+	//DANIEL
 	public boolean agregarFestival(String nombre, String temporada, double costeSuperficie, LocalDate fechaIni,
 			LocalDate fechaFin) throws Exception {
 		
@@ -45,11 +52,38 @@ public class Sistema {
 		return this.lstFestivales.add(nuevoFestival);
 	}
 	
+	public Festival buscarFestivalPorDatos(String nombre, String temporada, LocalDate fechaIni) {
+		Festival festivalEncontrado = null;
+		int i = 0;
+		boolean encontrado= false;
+		
+		while(i<this.lstFestivales.size() && !encontrado) {
+			
+			Festival f = this.lstFestivales.get(i);
+			
+			if(f.getNombre().equalsIgnoreCase(nombre) && f.getTemporada().equalsIgnoreCase(temporada) && f.getFechaIni().isEqual(fechaIni)) {
+				festivalEncontrado = f;
+				encontrado = true;
+			}
+			
+			i++;
+		}
+		
+		return festivalEncontrado;
+	}
+	
 	public boolean eliminarFestival(Festival festival) {
-		
-		
 		return this.lstFestivales.remove(festival);
 	}
+	
+	
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	
+	//TOBIAS
 	
 	
 	public Persona buscarPersonaPorDni(long dni) {
@@ -92,14 +126,36 @@ public class Sistema {
 		return personas;
 	}
 	
-	public boolean agregarCocinero(long dni, String nombre, String apellido, LocalDate fechaNacimiento, float sueldoBase, String especialidad, int plusCategoria) throws Exception {
-		
+	private boolean validarEdad(LocalDate fechaNacimiento) {
+		boolean valido = true;
 		LocalDate edadLimite = LocalDate.now().minusYears(18);
+		
+		if(fechaNacimiento.isAfter(edadLimite)) {
+			valido = false;
+		}
+		
+		return valido;
+	}
+	
+	private boolean validarAgregadoDePersonal(long dni, LocalDate fechaNacimiento) throws Exception {
+		
+		boolean valido = true;
 		
 		if(this.buscarPersonaPorDni(dni) != null) {
 			throw new Exception("Ya existe una persona con el DNI: "+ dni);
-		}else if(fechaNacimiento.isAfter(edadLimite)){
+		}else if(!validarEdad(fechaNacimiento)){
 			throw new Exception("La persona que intenta agregar, es menor de 18 años.");
+		}
+		
+		return valido;
+	}
+	
+	public boolean agregarCocinero(long dni, String nombre, String apellido, LocalDate fechaNacimiento, float sueldoBase, String especialidad, int plusCategoria) {
+		
+		try {
+			this.validarAgregadoDePersonal(dni, fechaNacimiento);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 		
 		Cocinero nuevoCocinero = new Cocinero(dni, nombre, apellido, fechaNacimiento, sueldoBase, especialidad ,plusCategoria);
@@ -111,12 +167,10 @@ public class Sistema {
 	//SOBRECARGA PARA AGREGAR FECHA DE INGRESO MANUAL
 	public boolean agregarCocinero(long dni, String nombre, String apellido, LocalDate fechaNacimiento, LocalDate ingreso,float sueldoBase, String especialidad, int plusCategoria) throws Exception {
 		
-		LocalDate edadLimite = LocalDate.now().minusYears(18);
-		
-		if(this.buscarPersonaPorDni(dni) != null) {
-			throw new Exception("Ya existe una persona con el DNI: "+ dni);
-		}else if(fechaNacimiento.isAfter(edadLimite)){
-			throw new Exception("La persona que intenta agregar, es menor de 18 años.");
+		try {
+			this.validarAgregadoDePersonal(dni, fechaNacimiento);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 		
 		Cocinero nuevoCocinero = new Cocinero(dni, nombre, apellido, fechaNacimiento, ingreso, sueldoBase, especialidad ,plusCategoria);
@@ -129,12 +183,10 @@ public class Sistema {
 	
 	public boolean agregarCajero(long dni, String nombre, String apellido, LocalDate fechaNacimiento, LocalDate ingreso,float sueldoBase, String turno) throws Exception {
 		
-		LocalDate edadLimite = LocalDate.now().minusYears(18);
-		
-		if(this.buscarPersonaPorDni(dni) != null) {
-			throw new Exception("Ya existe una persona con el DNI: "+ dni);
-		}else if(fechaNacimiento.isAfter(edadLimite)){
-			throw new Exception("La persona que intenta agregar, es menor de 18 años.");
+		try {
+			this.validarAgregadoDePersonal(dni, fechaNacimiento);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 		
 		Cajero nuevoCajero = new Cajero(dni, nombre, apellido, fechaNacimiento, ingreso ,sueldoBase, turno);
@@ -146,12 +198,10 @@ public class Sistema {
 	//SOBRECARGA PARA AGREGAR FECHA DE INGRESO MANUAL
 	public boolean agregarCajero(long dni, String nombre, String apellido, LocalDate fechaNacimiento, float sueldoBase, String turno) throws Exception {
 		
-		LocalDate edadLimite = LocalDate.now().minusYears(18);
-		
-		if(this.buscarPersonaPorDni(dni) != null) {
-			throw new Exception("Ya existe una persona con el DNI: "+ dni);
-		}else if(fechaNacimiento.isAfter(edadLimite)){
-			throw new Exception("La persona que intenta agregar, es menor de 18 años.");
+		try {
+			this.validarAgregadoDePersonal(dni, fechaNacimiento);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 		
 		Cajero nuevoCajero = new Cajero(dni, nombre, apellido, fechaNacimiento, sueldoBase, turno);
@@ -160,7 +210,8 @@ public class Sistema {
 		return this.lstPersonalGlobal.add(nuevoCajero);
 	}
 	
-	public boolean eliminarPersona(long dni) {
+	public boolean eliminarPersona(long dni) throws Exception{
+		if(this.buscarPersonaPorDni(dni)==null)throw new Exception("La persona con DNI: "+dni+" NO EXISTE.");
 		return this.lstPersonalGlobal.remove(buscarPersonaPorDni(dni));
 	}
 	
@@ -189,8 +240,6 @@ public class Sistema {
 		return total;
 	}
 	
-	
-
 	public List<Canon> canonsPorFestival(Festival f) {
 		
 		List<Canon> canons = new ArrayList<Canon>();
@@ -258,15 +307,67 @@ public class Sistema {
 		
 	}
 	
-	 public List<ReporteVenta> rankingUnidades(Festival festival) {
+	public double calcularRentabilidadNeta(UnidadVenta u) {
+		
+		double totalSueldos = this.calcularSueldosPorUnidad(u);
+		double gananciaPedidos = this.calcularGananciaNetaDePedidosPorUnidad(u);
+		
+		double gananciaMenosSueldos = gananciaPedidos-totalSueldos;
+		double gananciaMenosCanon = gananciaMenosSueldos - u.calcularCanon();
+
+		return gananciaMenosCanon;
+		
+	}
+	
+	public boolean registrarPedido(String nombreFestival ,String temporadaFestival, LocalDate fechaIniFestival, String codigoUnidad, List<ItemPedido> detalle) throws Exception{
+
+		Festival festival = this.buscarFestivalPorDatos(nombreFestival, temporadaFestival, fechaIniFestival);
+		UnidadVenta unidad = this.buscarUnidadVentaPorCodigoUnico(codigoUnidad);
+		
+	    if ( unidad == null ||  festival == null) {
+	        throw new Exception("El festival o unidad de venta no existen");
+	    }
+
+	    if (!festival.getLstUnidadVentas().contains(unidad)) {
+	        throw new Exception("La unidad de venta no existe en el festival");
+	    }
+
+	    for (ItemPedido item : detalle) {
+	        if (!unidad.getLstPlatos().contains(item.getPlato())) {
+	            throw new Exception("El plato "+item.getPlato().getNombre()+" no existe en la unidad de venta");
+	        }
+	    }
+	    
+	    int nuevoIdPedido = 1;
+	    
+	    if(!this.lstPedidos.isEmpty()) {
+	    	nuevoIdPedido = this.lstPedidos.getLast().getId()+1;
+	    }
+
+	    Pedido pedido = new Pedido(nuevoIdPedido, LocalDate.now(), unidad, festival, detalle, false);
+
+	    
+	    return this.lstPedidos.add(pedido);
+	}
+	
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	//==================================================================================================================================================================
+	
+	//MAXIMILIANO
+	
+	 public List<ReporteVenta> rankingUnidades() {
 
 		    List<ReporteVenta> ranking = new ArrayList<>();
 		    
-		    ranking = this.obtenerRecaudacionFestival(festival);
-	
-		    ranking = this.ordenarPorUnidadesVendidas(ranking);
+		    for(UnidadVenta u : this.lstUnidadesVenta) {
+		    	ReporteVenta reporte = new ReporteVenta(this.calcularRentabilidadNeta(u), u);
+		    	ranking.add(reporte);
+		    }
 		    
-		    return ranking;
+		    return this.ordenarPorUnidadesVendidas(ranking);
 		}
 	 
 	 private List<ReporteVenta> ordenarPorUnidadesVendidas(List<ReporteVenta> reporteVentas) {
@@ -300,81 +401,7 @@ public class Sistema {
 	    return reporte;
 	}
 	
-	
-	public double calcularRentabilidadNeta(UnidadVenta u) {
 		
-		double totalSueldos = this.calcularSueldosPorUnidad(u);
-		double gananciaPedidos = this.calcularGananciaNetaDePedidosPorUnidad(u);
-		
-		double gananciaMenosSueldos = gananciaPedidos-totalSueldos;
-		double gananciaMenosCanon = gananciaMenosSueldos - u.calcularCanon();
-
-		return gananciaMenosCanon;
-		
-	}
-	
-	
-	public Festival buscarFestivalPorDatos(String nombre, String temporada, LocalDate fechaIni) {
-		Festival festivalEncontrado = null;
-		int i = 0;
-		boolean encontrado= false;
-		
-		while(i<this.lstFestivales.size() && !encontrado) {
-			
-			Festival f = this.lstFestivales.get(i);
-			
-			if(f.getNombre().equalsIgnoreCase(nombre) && f.getTemporada().equalsIgnoreCase(temporada) && f.getFechaIni().isEqual(fechaIni)) {
-				festivalEncontrado = f;
-				encontrado = true;
-			}
-			
-			i++;
-		}
-		
-		return festivalEncontrado;
-	}
-	
-
-	
-	public boolean registrarPedido(String nombreFestival ,String temporadaFestival, LocalDate fechaIniFestival, String codigoUnidad, List<ItemPedido> detalle) throws Exception{
-
-		Festival festival = this.buscarFestivalPorDatos(nombreFestival, temporadaFestival, fechaIniFestival);
-		UnidadVenta unidad = this.buscarUnidadVentaPorCodigoUnico(codigoUnidad);
-		
-	    if ( unidad == null ||  festival == null) {
-	        throw new Exception("El festival o unidad de venta no existen");
-	    }
-
-	    if (!festival.getLstUnidadVentas().contains(unidad)) {
-	        throw new Exception("La unidad de venta no existe en el festival");
-	    }
-
-	    for (ItemPedido item : detalle) {
-	        if (!unidad.getLstPlatos().contains(item.getPlato())) {
-	            throw new Exception("El plato "+item.getPlato().getNombre()+" no existe en la unidad de venta");
-	        }
-	    }
-	    
-	    int nuevoIdPedido = 1;
-	    
-	    if(!this.lstPedidos.isEmpty()) {
-	    	nuevoIdPedido = this.lstPedidos.getLast().getId()+1;
-	    }
-
-	    Pedido pedido = new Pedido(nuevoIdPedido, LocalDate.now(), unidad, festival, detalle, false);
-
-	    
-	    return this.lstPedidos.add(pedido);
-	}
-	
-	
-	public UnidadVenta buscarUnidadVentaPorId(int id) {
-		
-		UnidadVenta unidadVentaEncontrada = null;
-		
-		return unidadVentaEncontrada;
-	}
-	
 	public UnidadVenta buscarUnidadVentaPorCodigoUnico(String codigoUnico) {
 		
 		UnidadVenta unidadVentaEncontrada = null;
@@ -436,6 +463,9 @@ public class Sistema {
 		
 		return f.getLstUnidadVentas().add(u);
 	}
+	
+	
+	
 	
 	
 	//getters y setters

@@ -7,10 +7,10 @@ public class ReporteVenta {
 	private double recaudacionTotal;
 	private UnidadVenta unidad;
 	
-	public ReporteVenta(double recaudacionTotal, UnidadVenta rankingUnidad) {
+	public ReporteVenta(double recaudacionTotal, UnidadVenta unidad) {
 		super();
 		this.recaudacionTotal = recaudacionTotal;
-		this.unidad = rankingUnidad;
+		this.unidad = unidad;
 	}
 
 	public double getRecaudacionTotal() {
@@ -25,8 +25,8 @@ public class ReporteVenta {
 		return unidad;
 	}
 
-	public void setRankingUnidad(UnidadVenta rankingUnidad) {
-		this.unidad = rankingUnidad;
+	public void setUnidad(UnidadVenta unidad) {
+		this.unidad = unidad;
 	}
 
 	@Override

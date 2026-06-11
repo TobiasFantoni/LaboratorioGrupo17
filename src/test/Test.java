@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class Test {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		Sistema sistema = new Sistema();
 		
 		try {
@@ -20,8 +19,11 @@ public class Test {
 			sistema.agregarCajero(35678912, "Martín", "Gómez", LocalDate.of(1992, 8, 15), LocalDate.of(2021, 02, 03),78000f, "Tarde");
 			sistema.agregarCajero(28987654, "Sofía", "Martínez", LocalDate.of(1990, 4, 8), LocalDate.of(2024, 12, 05),85000f, "Noche");
 			sistema.agregarCajero(33456789, "Diego", "Rodríguez", LocalDate.of(1987, 9, 22), LocalDate.of(2023, 11, 02),90000f, "Mañana");
+			
+			System.out.println("INTENTAMOS AGREGAR MENOR DE EDAD: ");
+			sistema.agregarCajero(12345678, "Diego", "Rodríguez", LocalDate.of(2015, 9, 22), LocalDate.of(2023, 11, 02),90000f, "Mañana");
+			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
 		
@@ -33,7 +35,6 @@ public class Test {
 			sistema.agregarUnidadVentaFoodTruck("Burger Wheels", sistema.buscarPersonaPorDni(27894561), 22.0, sistema.getLstPersonalGlobal(), "FT00000002", "AF456CD", false);
 			sistema.agregarUnidadVentaFoodTruck("Tacos Sobre Ruedas", sistema.buscarPersonaPorDni(32145678), 19.5, sistema.getLstPersonalGlobal(), "FT00000003", "AG789EF", true);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
 		
@@ -45,10 +46,8 @@ public class Test {
 		UnidadVenta unidad3F2 = sistema.buscarUnidadVentaPorCodigoUnico("FT00000003");
 		
 		try {
-			//Generamos los festivales
 			sistema.agregarFestival("Cosquín Rock", "Verano", 1500.0, LocalDate.of(2026, 2, 14), LocalDate.of(2026, 2, 16));
 			sistema.agregarFestival("Food Truck Fest", "Primavera", 1800.0, LocalDate.of(2026, 9, 18), LocalDate.of(2026, 9, 20));
-			//Agregamos Unidades a los festivales
 			sistema.agregarUnidadVentaParaFestival(sistema.buscarFestivalPorDatos("Cosquín Rock", "Verano", LocalDate.of(2026, 2, 14)), 
 					sistema.buscarUnidadVentaPorCodigoUnico("PD00000001"));
 			sistema.agregarUnidadVentaParaFestival(sistema.buscarFestivalPorDatos("Cosquín Rock", "Verano", LocalDate.of(2026, 2, 14)), 
@@ -61,7 +60,7 @@ public class Test {
 					sistema.buscarUnidadVentaPorCodigoUnico("FT00000002"));
 			sistema.agregarUnidadVentaParaFestival(sistema.buscarFestivalPorDatos("Food Truck Fest", "Primavera", LocalDate.of(2026, 9, 18)), 
 					sistema.buscarUnidadVentaPorCodigoUnico("FT00000003"));
-			System.out.println(sistema.getLstFestivales());
+			System.out.println("FESTIVALES AGREGADOS:\n"+sistema.getLstFestivales());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -181,11 +180,28 @@ public class Test {
 		
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println("Caso de uso 7(Filtro de Personal por Edad):");
-		System.out.println("Filtro al personal entre las fechas "+ LocalDate.of(1985, 11, 3)+" y "+ LocalDate.of(1990, 11, 22)+sistema.filtrarPersonalPorEdad(LocalDate.of(1985, 11, 3), LocalDate.of(1990, 11, 22)));
+		System.out.println("Filtro al personal entre las fechas "+ LocalDate.of(1985, 11, 3)+" y "+ LocalDate.of(1990, 11, 22)+
+				sistema.filtrarPersonalPorEdad(LocalDate.of(1985, 11, 3), LocalDate.of(1990, 11, 22)));
 		
+		System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println("Caso de uso 10(Ranking de Unidades):");
 		
-		sistema.rankingUnidades(festival1);
+		System.out.println(sistema.rankingUnidades());
+		
+		System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("ELIMINACIONES CU1:");
+		System.out.println("PERSONAS:\n");
+		System.out.println("ELIMINAMOS A LA PERSONA CON DNI: 35678912 (EXISTE) y 12345678 (NO EXISTE)");
+		
+		try {
+			sistema.eliminarPersona(35678912);
+			System.out.println("SE ELIMINO A DNI: 35678912");
+			System.out.println("SE INTENTA ELIMINAR 12345678");
+			sistema.eliminarPersona(12345678);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
 		
 	}
 }

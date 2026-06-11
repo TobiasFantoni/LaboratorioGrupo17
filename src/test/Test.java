@@ -15,11 +15,11 @@ public class Test {
 		try {
 			System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
 			System.out.println("Caso de uso 1(Altas y Bajas):");
-			sistema.agregarCocinero(30123456, "Juan", "Pérez", LocalDate.of(1988, 5, 12), 950000f, "Parrilla", 3);
-			sistema.agregarCocinero(27894561, "Carla", "Sánchez", LocalDate.of(1985, 11, 3), 980000f, "Comida Mexicana", 4);
-			sistema.agregarCajero(35678912, "Martín", "Gómez", LocalDate.of(1992, 8, 15), 780000f, "Tarde");
-			sistema.agregarCajero(28987654, "Sofía", "Martínez", LocalDate.of(1990, 4, 8), 850000f, "Noche");
-			sistema.agregarCajero(33456789, "Diego", "Rodríguez", LocalDate.of(1987, 9, 22), 900000f, "Mañana");
+			sistema.agregarCocinero(30123456, "Juan", "Pérez", LocalDate.of(1988, 5, 12), LocalDate.of(2025, 03, 05), 95000f, "Parrilla", 3);
+			sistema.agregarCocinero(27894561, "Carla", "Sánchez", LocalDate.of(1985, 11, 3) ,98000f, "Comida Mexicana", 4);
+			sistema.agregarCajero(35678912, "Martín", "Gómez", LocalDate.of(1992, 8, 15), LocalDate.of(2021, 02, 03),78000f, "Tarde");
+			sistema.agregarCajero(28987654, "Sofía", "Martínez", LocalDate.of(1990, 4, 8), LocalDate.of(2024, 12, 05),85000f, "Noche");
+			sistema.agregarCajero(33456789, "Diego", "Rodríguez", LocalDate.of(1987, 9, 22), LocalDate.of(2023, 11, 02),90000f, "Mañana");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
@@ -72,7 +72,9 @@ public class Test {
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println("Caso de uso 2(Búsqueda por Atributo Único):");
 		
+		System.out.println("\n\nBUSCAR CAJERO CON DNI: 28987654");
 		System.out.println(sistema.buscarPersonaPorDni(28987654));
+		System.out.println("\n\nBUSCAR UNIDAD POR CODIGO: PD00000001");
 		System.out.println(sistema.buscarUnidadVentaPorCodigoUnico("PD00000001"));
 		
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
@@ -85,26 +87,26 @@ public class Test {
 		
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println("Caso de uso 4(Liquidación de Haberes):");
-
-		System.out.println(sistema.buscarPersonaPorDni(35678912).calcularSueldo());
 		
+		System.out.println(sistema.buscarPersonaPorDni(35678912).toString());
+		System.out.println("SUELDO CON PLUS POR ANTIGUEDAD: "+sistema.buscarPersonaPorDni(35678912).calcularSueldo());
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println("Caso de uso 5:");
 		
 		try {
 			System.out.println("Agregando platos a las unidades de venta:");
-			unidad1F1.agregarPlato("Hamburguesa", 10, 5);
-			unidad1F1.agregarPlato("Papas", 5, 2);
-			unidad2F1.agregarPlato("Ensalada", 10, 15);
-			unidad2F1.agregarPlato("Aderezo", 5, 2);
-			unidad3F1.agregarPlato("Balde nuggets", 30, 20);
-			unidad3F1.agregarPlato("Gaseosa", 16, 8);
-			unidad1F2.agregarPlato("Pancho", 10, 5);
-			unidad1F2.agregarPlato("Sprite", 5, 2);
-			unidad2F2.agregarPlato("Sundae", 10, 7);
-			unidad2F2.agregarPlato("Torta", 15, 10);
-			unidad3F2.agregarPlato("Wrap de pollo", 20, 10);
-			unidad3F2.agregarPlato("Mayonesa", 5, 2);
+			unidad1F1.agregarPlato("Hamburguesa", 1000000, 5000);
+			unidad1F1.agregarPlato("Papas", 500000, 2000);
+			unidad2F1.agregarPlato("Ensalada", 1000000, 15000);
+			unidad2F1.agregarPlato("Aderezo", 500000, 2000);
+			unidad3F1.agregarPlato("Balde nuggets", 3000000, 20000);
+			unidad3F1.agregarPlato("Gaseosa", 1600000, 8000);
+			unidad1F2.agregarPlato("Pancho", 1000000, 5000);
+			unidad1F2.agregarPlato("Sprite", 500000, 2000);
+			unidad2F2.agregarPlato("Sundae", 1000000, 7000);
+			unidad2F2.agregarPlato("Torta", 1500000, 10000);
+			unidad3F2.agregarPlato("Wrap de pollo", 2000000, 10000);
+			unidad3F2.agregarPlato("Mayonesa", 500000, 2000);
 			System.out.println("Platos agregados");
 			
 		} catch (Exception e) {
@@ -114,6 +116,8 @@ public class Test {
 		System.out.println("Registro de pedidos:");
 		
 		try {
+			
+			System.out.println("TOMANDO DETALLE DE PEDIDOS...");
 			
 			ArrayList<ItemPedido> detallePedido1U1F1 = new ArrayList<>();
 			ArrayList<ItemPedido> detallePedido2U1F1 = new ArrayList<>();
@@ -135,12 +139,32 @@ public class Test {
 			detallePedido1U3F1.add(new ItemPedido(unidad3F1.buscarPlatoPorNombre("Balde nuggets"), 1));
 			detallePedido2U3F1.add(new ItemPedido(unidad3F1.buscarPlatoPorNombre("Gaseosa"), 2));
 			detallePedido1U1F2.add(new ItemPedido(unidad1F2.buscarPlatoPorNombre("Pancho"), 2));
-			detallePedido2U1F2.add(new ItemPedido(unidad1F2.buscarPlatoPorNombre("Sprite"), 1));
-			detallePedido1U2F2.add(new ItemPedido(unidad1F2.buscarPlatoPorNombre("Sprite"), 1));
-			detallePedido2U2F2.add(new ItemPedido(unidad1F2.buscarPlatoPorNombre("Sprite"), 1));
-			detallePedido1U3F2.add(new ItemPedido(unidad1F2.buscarPlatoPorNombre("Sprite"), 1));
-			detallePedido2U3F2.add(new ItemPedido(unidad1F2.buscarPlatoPorNombre("Sprite"), 1));
+			detallePedido2U1F2.add(new ItemPedido(unidad1F2.buscarPlatoPorNombre("Sprite"), 6));
+			detallePedido1U2F2.add(new ItemPedido(unidad2F2.buscarPlatoPorNombre("Sundae"), 2));
+			detallePedido2U2F2.add(new ItemPedido(unidad2F2.buscarPlatoPorNombre("Torta"), 4));
+			detallePedido1U3F2.add(new ItemPedido(unidad3F2.buscarPlatoPorNombre("Wrap de pollo"), 2));
+			detallePedido2U3F2.add(new ItemPedido(unidad3F2.buscarPlatoPorNombre("Mayonesa"), 3));
 			
+			System.out.println("REGISTRANDO PEDIDOS..");
+			
+			sistema.registrarPedido("Cosquín Rock", "Verano", LocalDate.of(2026, 2, 14), "PD00000001", detallePedido1U1F1);
+			sistema.registrarPedido("Cosquín Rock", "Verano", LocalDate.of(2026, 2, 14), "PD00000001", detallePedido2U1F1);
+			sistema.registrarPedido("Cosquín Rock", "Verano", LocalDate.of(2026, 2, 14), "PD00000002", detallePedido1U2F1);
+			sistema.registrarPedido("Cosquín Rock", "Verano", LocalDate.of(2026, 2, 14), "PD00000002", detallePedido2U2F1);
+			sistema.registrarPedido("Cosquín Rock", "Verano", LocalDate.of(2026, 2, 14), "PD00000005", detallePedido1U3F1);
+			sistema.registrarPedido("Cosquín Rock", "Verano", LocalDate.of(2026, 2, 14), "PD00000005", detallePedido2U3F1);
+			sistema.registrarPedido("Food Truck Fest", "Primavera", LocalDate.of(2026, 9, 18), "FT00000001", detallePedido1U1F2);
+			sistema.registrarPedido("Food Truck Fest", "Primavera", LocalDate.of(2026, 9, 18), "FT00000001", detallePedido2U1F2);
+			sistema.registrarPedido("Food Truck Fest", "Primavera", LocalDate.of(2026, 9, 18), "FT00000002", detallePedido1U2F2);
+			sistema.registrarPedido("Food Truck Fest", "Primavera", LocalDate.of(2026, 9, 18), "FT00000002", detallePedido2U2F2);
+			sistema.registrarPedido("Food Truck Fest", "Primavera", LocalDate.of(2026, 9, 18), "FT00000003", detallePedido1U3F2);
+			sistema.registrarPedido("Food Truck Fest", "Primavera", LocalDate.of(2026, 9, 18), "FT00000003", detallePedido2U3F2);
+			
+			System.out.println("PEDIDOS REGISTRADOS:");
+			
+			for(Pedido p : sistema.getlstPedidos()) {
+				System.out.println(p.toString());
+			}
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -161,38 +185,7 @@ public class Test {
 		
 		System.out.println("Caso de uso 10(Ranking de Unidades):");
 		
-		sistema.rankingUnidades(festival2);
+		sistema.rankingUnidades(festival1);
 		
-//		
-//		sistema.buscarUnidadVentaPorCodigoUnico("PD001").agregarPlato("Hamburguesa Completa", 12000, 4500);
-//		sistema.buscarUnidadVentaPorCodigoUnico("PD001").agregarPlato("Pizza Muzzarella", 15000, 6000);
-//		sistema.buscarUnidadVentaPorCodigoUnico("PD001").agregarPlato("Lomito Completo", 18000, 7500);
-//		sistema.buscarUnidadVentaPorCodigoUnico("PD001").agregarPlato("Tacos Mexicanos", 14000, 5500);
-//		sistema.
-//		sistema.registrarPedido(LocalDate.of(2026, 9, 18), sistema.buscarUnidadVentaPorCodigoUnico("PD001"), sistema.buscarUnidadVentaPorCodigoUnico("PD001").buscarPlatoPorNombre("Hamburguesa Completa"), true);
-//		sistema.registrarPedido(sistema.buscarUnidadVentaPorCodigoUnico("FT001"), sistema.buscarUnidadVentaPorCodigoUnico("PD001").buscarPlatoPorNombre("Pizza Muzzarella"), LocalDate.of(2026, 9, 18), false);
-//		sistema.registrarPedido(sistema.buscarUnidadVentaPorCodigoUnico("FT002"), sistema.buscarPlatoPorNombre("Tacos Mexicanos"), LocalDate.of(2026, 9, 19), true);
-		
-		
-		//System.out.println(sistema.buscarUnidadVentaPorCodigoUnico("PD001").calcularCanon());
-		//System.out.println(sistema.buscarUnidadVentaPorCodigoUnico("FT001").calcularCanon());
-		
-		//System.out.println(sistema.obtenerRecaudacionFestival(sistema.buscarFestivalPorDatos("Cosquín Rock", "Verano 2026",LocalDate.of(2026, 2, 14))));
-		
-		//System.out.println(sistema.filtrarPersonalPorEdad(LocalDate.of(1985, 11, 3), LocalDate.of(1987, 9, 22)));
-		
-		
-		
-		//System.out.println("La recaudacion de la unidad de venta es de: "+sistema.calcularRentabilidadNeta(sistema.buscarUnidadVentaPorCodigoUnico("FT001")));
-		
-		
-		
-		//System.out.println("El ranking de unidades del festival es: "+sistema.rankingUnidades(sistema.buscarFestivalPorDatos("Cosquín Rock", "Verano 2026",LocalDate.of(2026, 2, 14))));
-		
-		
-		
-		//System.out.println(sistema.obtenerPlatoEstrella(sistema.buscarUnidadVentaPorCodigoUnico("PD001")));
-		
-		//System.out.println(sistema.canonTop3(sistema.buscarFestivalPorDatos("Cosquín Rock", "Verano 2026",LocalDate.of(2026, 2, 14))));
 	}
 }

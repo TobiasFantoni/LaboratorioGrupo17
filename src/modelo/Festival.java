@@ -25,6 +25,16 @@ public class Festival {
 			this.fechaFin = fechaFin;
 			this.lstUnidadVentas = new ArrayList<UnidadVenta>();
 		}
+		
+		
+
+		@Override
+		public String toString() {
+			return "\n\nFestival: "+this.getNombre()+"\nTEMPORADA: "+this.temporada+"\nINICIA EL: "+this.getFechaIni()+"\nFINALIZA EL: "+this.getFechaFin();
+					
+		}
+
+
 
 		public int getId() {
 			return id;

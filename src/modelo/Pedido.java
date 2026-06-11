@@ -64,8 +64,17 @@ public class Pedido {
 		return this.calcularTotalPedido()-this.calcularCostoPedido();
 	}
 	
+	
+	
+	
 	//getters y setters
 	
+	@Override
+	public String toString() {
+		return "\n\nPEDIDO: "+this.getId()+"\nFECHA: "+this.getFecha().toString()+"\nFESTIVAL: "+this.getFestival().getNombre()+"\nUNIDAD: "
+	+this.getUnidadVenta().getCodigoUnico()+"\nDETALLE: "+this.getLstItemsPedido()+"\nTOTAL: "+this.calcularTotalPedido()+"\nCOSTO: "+this.calcularCostoPedido();
+	}
+
 	public int getId() {
 		return id;
 	}

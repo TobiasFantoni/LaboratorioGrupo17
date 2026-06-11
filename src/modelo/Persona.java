@@ -21,6 +21,16 @@ public abstract class Persona {
 		this.sueldoBase = sueldoBase;
 	}
 	
+	public Persona(long dni, String nombre, String apellido, LocalDate fechaNacimiento,LocalDate ingreso,
+			float sueldoBase) {
+		this.dni = dni;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.fechaNacimiento = fechaNacimiento;
+		this.fechaIngreso = ingreso;
+		this.sueldoBase = sueldoBase;
+	}
+	
 	public long getDni() {
 		return dni;
 	}

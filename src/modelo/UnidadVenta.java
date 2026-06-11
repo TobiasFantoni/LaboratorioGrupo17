@@ -119,9 +119,7 @@ public abstract class UnidadVenta {
 
 	@Override
 	public String toString() {
-		return "\nUnidadVenta [id=" + id + ", nombreComercial=" + nombreComercial + ", responsable=" + responsable
-				+ ", superficie=" + superficie + ", lstStaff=" + lstStaff + ", lstPlatos=" + lstPlatos
-				+ ", codigoUnico=" + codigoUnico + "]";
+		return "\n\nUNIDAD: "+this.getNombreComercial()+"\nCODIGO: "+this.getCodigoUnico()+"\nSUPERFICIE: "+this.getSuperficie()+"\nRESPONSABLE: "+this.getResponsable()+"\nPERSONAL: "+this.getLstStaff();
 	}
 
 }

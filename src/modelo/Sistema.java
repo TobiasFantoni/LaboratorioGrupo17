@@ -108,6 +108,42 @@ public class Sistema {
 		return this.lstPersonalGlobal.add(nuevoCocinero);
 	} 
 	
+	//SOBRECARGA PARA AGREGAR FECHA DE INGRESO MANUAL
+	public boolean agregarCocinero(long dni, String nombre, String apellido, LocalDate fechaNacimiento, LocalDate ingreso,float sueldoBase, String especialidad, int plusCategoria) throws Exception {
+		
+		LocalDate edadLimite = LocalDate.now().minusYears(18);
+		
+		if(this.buscarPersonaPorDni(dni) != null) {
+			throw new Exception("Ya existe una persona con el DNI: "+ dni);
+		}else if(fechaNacimiento.isAfter(edadLimite)){
+			throw new Exception("La persona que intenta agregar, es menor de 18 años.");
+		}
+		
+		Cocinero nuevoCocinero = new Cocinero(dni, nombre, apellido, fechaNacimiento, ingreso, sueldoBase, especialidad ,plusCategoria);
+		
+		
+		return this.lstPersonalGlobal.add(nuevoCocinero);
+	} 
+	
+	
+	
+	public boolean agregarCajero(long dni, String nombre, String apellido, LocalDate fechaNacimiento, LocalDate ingreso,float sueldoBase, String turno) throws Exception {
+		
+		LocalDate edadLimite = LocalDate.now().minusYears(18);
+		
+		if(this.buscarPersonaPorDni(dni) != null) {
+			throw new Exception("Ya existe una persona con el DNI: "+ dni);
+		}else if(fechaNacimiento.isAfter(edadLimite)){
+			throw new Exception("La persona que intenta agregar, es menor de 18 años.");
+		}
+		
+		Cajero nuevoCajero = new Cajero(dni, nombre, apellido, fechaNacimiento, ingreso ,sueldoBase, turno);
+		
+		
+		return this.lstPersonalGlobal.add(nuevoCajero);
+	}
+	
+	//SOBRECARGA PARA AGREGAR FECHA DE INGRESO MANUAL
 	public boolean agregarCajero(long dni, String nombre, String apellido, LocalDate fechaNacimiento, float sueldoBase, String turno) throws Exception {
 		
 		LocalDate edadLimite = LocalDate.now().minusYears(18);
@@ -269,23 +305,14 @@ public class Sistema {
 		
 		double totalSueldos = this.calcularSueldosPorUnidad(u);
 		double gananciaPedidos = this.calcularGananciaNetaDePedidosPorUnidad(u);
+		
+		double gananciaMenosSueldos = gananciaPedidos-totalSueldos;
+		double gananciaMenosCanon = gananciaMenosSueldos - u.calcularCanon();
 
-		return gananciaPedidos-totalSueldos-u.calcularCanon();
+		return gananciaMenosCanon;
 		
 	}
 	
-//	public double calcularRentabilidadNetaEntreFechas(UnidadVenta u,LocalDate desde, LocalDate hasta) {
-//		
-//		List<Pedido> pedidos = this.filtrarPedidosEntreFechas(this.filtrarPedidosPorUnidad(u), desde, hasta);
-//		double totalSueldos = 0;
-//		double gananciaPedidos = 0;
-//		
-//		
-//		for(Pedido p : pedidos) {
-//			gananciaPedidos += p.calcularGananciaNeta();
-//		}
-//		
-//	}
 	
 	public Festival buscarFestivalPorDatos(String nombre, String temporada, LocalDate fechaIni) {
 		Festival festivalEncontrado = null;
@@ -418,6 +445,10 @@ public class Sistema {
 	
 	public List<Festival> getLstFestivales() {
 		return lstFestivales;
+	}
+	
+	public List<Pedido> getlstPedidos() {
+		return lstPedidos;
 	}
 	
 	

@@ -11,6 +11,20 @@ public class Cajero extends Persona {
 		this.turno = turno;
 	}
 	
+	public Cajero(long dni, String nombre, String apellido, LocalDate fechaNacimiento, LocalDate ingreso,float sueldoBase, String turno) {
+		super(dni, nombre, apellido, fechaNacimiento, ingreso ,sueldoBase);
+		this.turno = turno;
+	}
+	
+	
+	
+	@Override
+	public String toString() {
+		return "\n\nCajero: "+this.getNombre()+" "+this.getApellido()+"\nDNI: "+this.getDni()+"\nTURNO: "+this.getTurno()+"\nSUELDO BASE: "+this.getSueldoBase();
+	}
+
+
+
 	@Override
 	public double calcularSueldo() {
 		

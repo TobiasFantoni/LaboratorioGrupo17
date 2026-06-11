@@ -82,11 +82,6 @@ public class Festival {
 			this.lstUnidadVentas = lstUnidadVentas;
 		}
 
-		@Override
-		public int hashCode() {
-			return Objects.hash(fechaFin, fechaIni, nombre);
-		}
-
 		
 		public boolean equals(Festival f) {
 			return this.nombre.equals(f.nombre) && this.fechaIni.isEqual(fechaIni) && this.fechaFin.isEqual(fechaFin);

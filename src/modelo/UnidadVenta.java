@@ -1,8 +1,9 @@
 package modelo;
 
+import java.util.ArrayList;
 import java.util.List;
 
-abstract public class UnidadVenta {
+public abstract class UnidadVenta {
 	protected int id;
 	protected String nombreComercial;
 	protected Persona responsable;
@@ -11,15 +12,15 @@ abstract public class UnidadVenta {
 	protected List<Plato> lstPlatos;
 	protected String codigoUnico;
 
-	public UnidadVenta(int id, String nombreComercial, Persona responsable, double superficie, List<Persona> lstStaff,
-			List<Plato> lstPlatos, String codigoUnico) {
+	public UnidadVenta(int id, String nombreComercial, Persona responsable, double superficie, List<Persona> lstStaff, 
+			String codigoUnico) throws Exception {
 		this.id = id;
 		this.nombreComercial = nombreComercial;
 		this.responsable = responsable;
 		this.superficie = superficie;
 		this.lstStaff = lstStaff;
-		this.lstPlatos = lstPlatos;
-		this.codigoUnico = codigoUnico;
+		this.lstPlatos = new ArrayList<Plato>();
+		this.setCodigoUnico(codigoUnico);
 	}
 
 	// getters y setters
@@ -75,7 +76,8 @@ abstract public class UnidadVenta {
 		return codigoUnico;
 	}
 
-	public void setCodigoUnico(String codigoUnico) {
+	public void setCodigoUnico(String codigoUnico) throws Exception{
+		if(codigoUnico.length() != 10) throw new Exception("El codigo unico debe tener una longitud de 10 caracteres");
 		this.codigoUnico = codigoUnico;
 	}
 	
@@ -84,6 +86,42 @@ abstract public class UnidadVenta {
 		return this.codigoUnico.equals(unidad.getCodigoUnico());
 	}
 	
+	public Plato buscarPlatoPorNombre(String nombre) {
+		
+		Plato unidadVentaEncontrada = null;
+		boolean encontrado = false;
+		int contador = 0;
+		
+		while(contador < this.lstPlatos.size() && encontrado == false) {
+			if(lstPlatos.get(contador).getNombre().equals(nombre)) {
+				unidadVentaEncontrada = this.lstPlatos.get(contador);
+				encontrado = true;
+			}
+			contador++;
+		}
+		
+		return unidadVentaEncontrada;
+	}
+	
+	public boolean agregarPlato(String nombre, float precio, float costo) throws Exception {
+		if(buscarPlatoPorNombre(nombre) != null)throw new Exception("El plato ya existe");
+		
+		int id = 1;
+		
+		if(this.lstPlatos.isEmpty() != true) {
+			id = this.lstPlatos.getLast().getId() + 1;
+		}
+		
+		return this.lstPlatos.add(new Plato(id,nombre,precio,costo));
+	}
+	
 	public abstract double calcularCanon();
+
+	@Override
+	public String toString() {
+		return "\nUnidadVenta [id=" + id + ", nombreComercial=" + nombreComercial + ", responsable=" + responsable
+				+ ", superficie=" + superficie + ", lstStaff=" + lstStaff + ", lstPlatos=" + lstPlatos
+				+ ", codigoUnico=" + codigoUnico + "]";
+	}
 
 }

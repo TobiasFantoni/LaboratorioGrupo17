@@ -25,10 +25,24 @@ public class Sistema {
 	
 	//metodos
 	
-	public boolean agregarFestival(Festival festival) {
+	public boolean agregarFestival(String nombre, String temporada, double costeSuperficie, LocalDate fechaIni,
+			LocalDate fechaFin) throws Exception {
 		
+		if (fechaFin.isBefore(fechaIni)) {
+			throw new Exception("La fecha de fin no puede ser anterior a la fecha de inicio");
+		}
+		else if (this.buscarFestivalPorDatos(nombre, temporada, fechaIni) != null) {
+			throw new Exception("Ya existe un festival '" + nombre + "' para la temporada '" + temporada + "' en la fecha: " + fechaIni);
+		}
 		
-		return this.lstFestivales.add(null);
+		int id = 1;
+		
+		if (!this.lstFestivales.isEmpty()) {
+			id = this.lstFestivales.getLast().getId() + 1;		
+		}
+		
+		Festival nuevoFestival = new Festival(id, nombre, temporada, costeSuperficie, fechaIni, fechaFin);
+		return this.lstFestivales.add(nuevoFestival);
 	}
 	
 	public boolean eliminarFestival(Festival festival) {
@@ -208,6 +222,48 @@ public class Sistema {
 		
 	}
 	
+	 public List<ReporteVenta> rankingUnidades(Festival festival) {
+
+		    List<ReporteVenta> ranking = new ArrayList<>();
+		    
+		    ranking = this.obtenerRecaudacionFestival(festival);
+	
+		    ranking = this.ordenarPorUnidadesVendidas(ranking);
+		    
+		    return ranking;
+		}
+	 
+	 private List<ReporteVenta> ordenarPorUnidadesVendidas(List<ReporteVenta> reporteVentas) {
+
+		    for (int i = 0; i < reporteVentas.size() - 1; i++) {
+
+		        for (int j = 0; j < reporteVentas.size()- 1 - i; j++) {
+		            if (reporteVentas.get(j).getRecaudacionTotal() < reporteVentas.get(j+1).getRecaudacionTotal()) {
+		            	ReporteVenta aux = reporteVentas.get(j);
+		            	reporteVentas.set(j, reporteVentas.get(j + 1));
+		            	reporteVentas.set(j + 1, aux);
+		            }
+		        }
+		    }
+		    return reporteVentas;
+		}
+	
+	public List<ReporteVenta> obtenerRecaudacionFestival(Festival festival){
+		
+		
+	    List<ReporteVenta> reporte = new ArrayList<>();
+	    
+	    for(int i = 0; i < festival.getLstUnidadVentas().size(); i++) {
+	    	 double recaudacionFestival = 0;
+	    	 recaudacionFestival = recaudacionFestival + this.calcularRentabilidadNeta(festival.getLstUnidadVentas().get(i));
+	    	 reporte.add(new ReporteVenta(recaudacionFestival, festival.getLstUnidadVentas().get(i)));
+	    }
+	    
+	   
+
+	    return reporte;
+	}
+	
 	
 	public double calcularRentabilidadNeta(UnidadVenta u) {
 		
@@ -218,29 +274,70 @@ public class Sistema {
 		
 	}
 	
-	public double calcularRentabilidadNetaEntreFechas(UnidadVenta u,LocalDate desde, LocalDate hasta) {
+//	public double calcularRentabilidadNetaEntreFechas(UnidadVenta u,LocalDate desde, LocalDate hasta) {
+//		
+//		List<Pedido> pedidos = this.filtrarPedidosEntreFechas(this.filtrarPedidosPorUnidad(u), desde, hasta);
+//		double totalSueldos = 0;
+//		double gananciaPedidos = 0;
+//		
+//		
+//		for(Pedido p : pedidos) {
+//			gananciaPedidos += p.calcularGananciaNeta();
+//		}
+//		
+//	}
+	
+	public Festival buscarFestivalPorDatos(String nombre, String temporada, LocalDate fechaIni) {
+		Festival festivalEncontrado = null;
+		int i = 0;
+		boolean encontrado= false;
 		
-		List<Pedido> pedidos = this.filtrarPedidosEntreFechas(this.filtrarPedidosPorUnidad(u), desde, hasta);
-		double totalSueldos = 0;
-		double gananciaPedidos = 0;
-		
-		
-		for(Pedido p : pedidos) {
-			gananciaPedidos += p.calcularGananciaNeta();
+		while(i<this.lstFestivales.size() && !encontrado) {
+			
+			Festival f = this.lstFestivales.get(i);
+			
+			if(f.getNombre().equalsIgnoreCase(nombre) && f.getTemporada().equalsIgnoreCase(temporada) && f.getFechaIni().isEqual(fechaIni)) {
+				festivalEncontrado = f;
+				encontrado = true;
+			}
+			
+			i++;
 		}
 		
+		return festivalEncontrado;
 	}
 	
-	public boolean agregarUnidadVenta(UnidadVenta unidadVenta) {
-		
-		
-		return this.lstUnidadesVenta.add(null);
-	}
+
 	
-	public boolean eliminarUnidadVenta(UnidadVenta unidadVenta) {
+	public boolean registrarPedido(String nombreFestival ,String temporadaFestival, LocalDate fechaIniFestival, String codigoUnidad, List<ItemPedido> detalle) throws Exception{
+
+		Festival festival = this.buscarFestivalPorDatos(nombreFestival, temporadaFestival, fechaIniFestival);
+		UnidadVenta unidad = this.buscarUnidadVentaPorCodigoUnico(codigoUnidad);
 		
-		
-		return this.lstFestivales.remove(unidadVenta);
+	    if ( unidad == null ||  festival == null) {
+	        throw new Exception("El festival o unidad de venta no existen");
+	    }
+
+	    if (!festival.getLstUnidadVentas().contains(unidad)) {
+	        throw new Exception("La unidad de venta no existe en el festival");
+	    }
+
+	    for (ItemPedido item : detalle) {
+	        if (!unidad.getLstPlatos().contains(item.getPlato())) {
+	            throw new Exception("El plato "+item.getPlato().getNombre()+" no existe en la unidad de venta");
+	        }
+	    }
+	    
+	    int nuevoIdPedido = 1;
+	    
+	    if(!this.lstPedidos.isEmpty()) {
+	    	nuevoIdPedido = this.lstPedidos.getLast().getId()+1;
+	    }
+
+	    Pedido pedido = new Pedido(nuevoIdPedido, LocalDate.now(), unidad, festival, detalle, false);
+
+	    
+	    return this.lstPedidos.add(pedido);
 	}
 	
 	
@@ -251,17 +348,77 @@ public class Sistema {
 		return unidadVentaEncontrada;
 	}
 	
-	public boolean registrarPedido() {
+	public UnidadVenta buscarUnidadVentaPorCodigoUnico(String codigoUnico) {
 		
-		Pedido nuevoPedido = null; 
+		UnidadVenta unidadVentaEncontrada = null;
+		boolean encontrado = false;
+		int contador = 0;
 		
-		return this.lstPedidos.add(nuevoPedido);
+		while(contador < this.lstUnidadesVenta.size() && encontrado == false) {
+			if(lstUnidadesVenta.get(contador).getCodigoUnico().equals(codigoUnico)) {
+				unidadVentaEncontrada = this.lstUnidadesVenta.get(contador);
+				encontrado = true;
+			}
+			contador++;
+		}
+		
+		return unidadVentaEncontrada;
+	}
+	
+	public boolean agregarUnidadVentaPuestoDesmotable(String nombreComercial, Persona persona, double superficie, List<Persona> staff, String codigoUnico, int cantidad, int tiempoMontaje) throws Exception {
+		if(buscarUnidadVentaPorCodigoUnico(codigoUnico) != null)throw new Exception("La unidad ya existe");
+		
+		int id = 1;
+		
+		if(this.lstUnidadesVenta.isEmpty() != true) {
+			id = this.lstUnidadesVenta.getLast().getId() + 1;
+		}
+		
+	
+		return this.lstUnidadesVenta.add(new PuestoDesarmable(id,nombreComercial,persona,superficie,staff,codigoUnico, cantidad, tiempoMontaje));
+	}
+	
+	public boolean agregarUnidadVentaFoodTruck(String nombreComercial, Persona persona, double superficie, List<Persona> staff, String codigoUnico,  String patente, boolean usaLuz) throws Exception {
+		if(buscarUnidadVentaPorCodigoUnico(codigoUnico) != null)throw new Exception("La unidad ya existe");
+		
+		int id = 1;
+		
+		if(this.lstUnidadesVenta.isEmpty() != true) {
+			id = this.lstUnidadesVenta.getLast().getId() + 1;
+		}
+		
+	
+		return this.lstUnidadesVenta.add(new Foodtruck(id,nombreComercial,persona,superficie,staff,codigoUnico, patente, usaLuz));
+	}
+	
+	public boolean buscarUnidadDeVentaEnFestival(String codigoUnico,Festival f) throws Exception {
+		boolean repetido = false;
+		
+		for(int i = 0; i < f.getLstUnidadVentas().size(); i++) {
+			if(f.getLstUnidadVentas().get(i).getCodigoUnico().equals(codigoUnico)) {
+				repetido = true;
+			}
+		}
+		return repetido;
+	}
+	
+	public boolean agregarUnidadVentaParaFestival(Festival f, UnidadVenta u) throws Exception {
+		
+		if(buscarUnidadDeVentaEnFestival(u.getCodigoUnico(), f) == true)throw new Exception("La unidad ya existe en el festival");
+
+		
+		return f.getLstUnidadVentas().add(u);
 	}
 	
 	
-	
 	//getters y setters
+	public List<Persona> getLstPersonalGlobal() {
+		return lstPersonalGlobal;
+	}
 	
+	public List<Festival> getLstFestivales() {
+		return lstFestivales;
+	}
 	
 	
 }

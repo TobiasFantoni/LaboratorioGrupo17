@@ -21,6 +21,7 @@ public class Plato {
 	
 	
 	
+	
 	//getters y setters
 	public int getId() {
 		return id;
